@@ -182,19 +182,19 @@ gMapCardBorderBlueTiles	1	-	gMapCardBorderBlueTiles	-16	-20	32	39	CARD/1000/CA10
 gMapCardBorderBlackTiles	1	-	gMapCardBorderBlackTiles	-16	-20	32	39	CARD/1000/CA1000.RTM:com_card01_tm2.dds	crop=750,561,1017,747;rot=270;crop=0,0,186,267;place=2,0,30,39;scale=8
 # World images (22/10): the 13 worlds of the world select; Re:CoM's cl_### are the same pictures on an opaque blue
 # glow. Group 4: the game cuts each to its cartridge sprite's silhouette when it loads it (port_hdsprites.c).
-gWorldImageTraverseTownTiles	4	gWorldImageTraverseTownFrame0	gWorldImageTraverseTownTiles	-43	-39	86	93	CARD/0301/CA0301.RTM:cl_001_tm2.dds	crop=20,5,243,230;place=0,0,80,91;scale=8
-gWorldImageWonderlandTiles	4	gWorldImageWonderlandFrame0	gWorldImageWonderlandTiles	-35	-60	64	106	CARD/0302/CA0302.RTM:cl_002_tm2.dds	crop=46,1,199,239;place=2,4,64,103;scale=8
-gWorldImageOlympusColiseumTiles	4	gWorldImageOlympusColiseumFrame0	gWorldImageOlympusColiseumTiles	-40	-38	71	86	CARD/0303/CA0303.RTM:cl_003_tm2.dds	crop=26,6,227,249;place=2,3,69,84;scale=8
-gWorldImageAgrabahTiles	4	gWorldImageAgrabahFrame0	gWorldImageAgrabahTiles	-35	-49	64	109	CARD/0304/CA0304.RTM:cl_004_tm2.dds	crop=59,12,199,240;place=2,2,63,104;scale=8
-gWorldImageHalloweenTownTiles	4	gWorldImageHalloweenTownFrame0	gWorldImageHalloweenTownTiles	-40	-47	79	117	CARD/0305/CA0305.RTM:cl_005_tm2.dds	crop=38,5,205,250;place=1,1,74,112;scale=8
-gWorldImageMonstroTiles	4	gWorldImageMonstroFrame0	gWorldImageMonstroTiles	-50	-15	102	39	CARD/0306/CA0306.RTM:cl_006_tm2.dds	crop=4,76,249,167;place=6,0,97,34;scale=8
-gWorldImageAtlanticaTiles	4	gWorldImageAtlanticaFrame0	gWorldImageAtlanticaTiles	-39	-27	78	64	CARD/0307/CA0307.RTM:cl_007_tm2.dds	crop=0,7,250,231;place=0,1,72,63;scale=8
-gWorldImageNeverLandTiles	4	gWorldImageNeverLandFrame0	gWorldImageNeverLandTiles	-42	-63	64	117	CARD/0308/CA0308.RTM:cl_008_tm2.dds	crop=55,4,194,250;place=2,1,64,116;scale=8
-gWorldImageHollowBastionTiles	4	gWorldImageHollowBastionFrame0	gWorldImageHollowBastionTiles	-37	-53	64	116	CARD/0309/CA0309.RTM:cl_009_tm2.dds	crop=53,0,201,251;place=2,0,63,112;scale=8
-gWorldImage100AcreWoodTiles	4	gWorldImage100AcreWoodFrame0	gWorldImage100AcreWoodTiles	-36	-29	64	64	CARD/0310/CA0310.RTM:cl_010_tm2.dds	crop=46,18,208,240;place=8,0,55,64;scale=8
-gWorldImageTwilightTownTiles	4	gWorldImageTwilightTownFrame0	gWorldImageTwilightTownTiles	-38	-25	70	70	CARD/0311/CA0311.RTM:cl_011_tm2.dds	crop=16,14,256,252;place=0,1,69,70;scale=8
-gWorldImageDestinyIslandsTiles	4	gWorldImageDestinyIslandsFrame0	gWorldImageDestinyIslandsTiles	-42	-48	86	93	CARD/0312/CA0312.RTM:cl_012_tm2.dds	crop=10,2,247,245;place=0,5,80,89;scale=8
-gWorldImageCastleOblivionTiles	4	gWorldImageCastleOblivionFrame0	gWorldImageCastleOblivionTiles	-44	-25	78	70	CARD/0313/CA0313.RTM:cl_013_tm2.dds	crop=0,0,256,242;place=0,0,76,70;scale=8
+gWorldImageTraverseTownTiles	4	gWorldImageTraverseTownFrame0	gWorldImageTraverseTownTiles	-43	-39	86	93	FORM/0150/FO0150.RTM:world_icon.imz#0	crop=30,6,243,244;place=0,1,80,89;scale=8
+gWorldImageWonderlandTiles	4	gWorldImageWonderlandFrame0	gWorldImageWonderlandTiles	-35	-60	64	106	FORM/0153/FO0153.RTM:world_icon.imz#0	crop=38,2,188,242;place=2,4,64,102;scale=8
+gWorldImageOlympusColiseumTiles	4	gWorldImageOlympusColiseumFrame0	gWorldImageOlympusColiseumTiles	-40	-38	71	86	FORM/0152/FO0152.RTM:world_icon.imz#0	crop=38,9,232,246;place=2,3,69,84;scale=8
+gWorldImageAgrabahTiles	4	gWorldImageAgrabahFrame0	gWorldImageAgrabahTiles	-35	-49	64	109	FORM/0151/FO0151.RTM:world_icon.imz#0	crop=50,0,194,241;place=2,2,62,104;scale=8
+gWorldImageHalloweenTownTiles	4	gWorldImageHalloweenTownFrame0	gWorldImageHalloweenTownTiles	-40	-47	79	117	FORM/0155/FO0155.RTM:world_icon.imz#0	crop=39,5,203,254;place=1,1,74,112;scale=8
+gWorldImageMonstroTiles	4	gWorldImageMonstroFrame0	gWorldImageMonstroTiles	-50	-15	102	39	FORM/0154/FO0154.RTM:world_icon.imz#0	crop=24,70,254,154;place=8,0,93,34;scale=8
+gWorldImageAtlanticaTiles	4	gWorldImageAtlanticaFrame0	gWorldImageAtlanticaTiles	-39	-27	78	64	FORM/0156/FO0156.RTM:world_icon.imz#0	crop=42,34,231,202;place=0,1,71,63;scale=8
+gWorldImageNeverLandTiles	4	gWorldImageNeverLandFrame0	gWorldImageNeverLandTiles	-42	-63	64	117	FORM/0157/FO0157.RTM:world_icon.imz#0	crop=62,2,197,254;place=3,1,62,116;scale=8
+gWorldImageHollowBastionTiles	4	gWorldImageHollowBastionFrame0	gWorldImageHollowBastionTiles	-37	-53	64	116	FORM/0158/FO0158.RTM:world_icon.imz#0	crop=62,1,202,251;place=2,0,63,112;scale=8
+gWorldImage100AcreWoodTiles	4	gWorldImage100AcreWoodFrame0	gWorldImage100AcreWoodTiles	-36	-29	64	64	FORM/0159/FO0159.RTM:world_icon.imz#0	crop=6,15,136,195;place=12,0,46,64;scale=8
+gWorldImageTwilightTownTiles	4	gWorldImageTwilightTownFrame0	gWorldImageTwilightTownTiles	-38	-25	70	70	FORM/0160/FO0160.RTM:world_icon.imz#0	crop=19,10,254,235;place=0,3,69,66;scale=8
+gWorldImageDestinyIslandsTiles	4	gWorldImageDestinyIslandsFrame0	gWorldImageDestinyIslandsTiles	-42	-48	86	93	FORM/0161/FO0161.RTM:world_icon.imz#0	crop=38,4,250,224;place=0,8,80,83;scale=8
+gWorldImageCastleOblivionTiles	4	gWorldImageCastleOblivionFrame0	gWorldImageCastleOblivionTiles	-44	-25	78	70	FORM/0162/FO0162.RTM:world_icon.imz#0	crop=13,19,249,232;place=0,0,76,69;scale=8
 # HP ring (22/10, user's pick): Re:CoM's player gauge (pl_gauge); the game cuts the face's hole, makes the empty
 # track and fills it with the HP (port_hdsprites.c, PortHdHpRing). Tiles '-': not a cartridge sprite.
 gBtlHpRing	3	-	-	0	0	74	45	CARD/9004/CA9004.RTM:pl_gauge_tm2.dds	crop=41,29,634,386;scale=8

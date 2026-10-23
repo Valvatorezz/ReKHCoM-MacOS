@@ -1448,10 +1448,18 @@ int PortUiTakeMenuSound(int open) {
     return take;
 }
 
+/* Counts every opening of the options: an event reading a START tap ignores one held across an opening (START +
+   SELECT opens them; the START released when they close is not a tap of the scene's). */
+static unsigned sOpenSerial;
+unsigned PortUiOpenSerial(void) {
+    return sOpenSerial;
+}
+
 void PortUiOpenOptions(void) {
     if (sOpen)
         return;
     sOpen = 1;
+    sOpenSerial++;
     sTitleArmed = 0;
     sModeArmed = 0;
     sModePick = gPortConfig.graphicsMode > PORT_MODE_CHOOSE ? gPortConfig.graphicsMode : PORT_MODE_HD;
@@ -3007,6 +3015,16 @@ static int ScenePauseEvent(const SDL_Event* ev) {
            ev->type == SDL_EVENT_GAMEPAD_BUTTON_DOWN || ev->type == SDL_EVENT_GAMEPAD_BUTTON_UP;
 }
 
+/* The panel's rectangle on the frame, kept for the presenter: it draws the panel again above the HD layers (an HD
+   portrait, HD text or the black an HD scene ends on covered it, and the paused game looked hung: 23/10). */
+static int sScenePauseRect[4];
+int PortUiScenePauseRect(int r[4]) {
+    if (!sScenePause)
+        return 0;
+    SDL_memcpy(r, sScenePauseRect, sizeof(sScenePauseRect));
+    return r[2] > 0 && r[3] > 0;
+}
+
 static void DrawScenePause(int l, int width, int height) {
     const char* title = sSceneStep == 0 ? sScenePauseTitle[l] : (sSceneMovie ? sMoviePauseAsk[l] : sScenePauseAsk[l]);
     const char* rows[2];
@@ -3020,6 +3038,10 @@ static void DrawScenePause(int l, int width, int height) {
     x0 = (width - panelW) / 2;
     y0 = (height - h) / 2;
     Shade(0, 0, width, height, 0xFF000000u, 120); /* the paused scene stays behind */
+    sScenePauseRect[0] = x0 - 2;
+    sScenePauseRect[1] = y0 - 2;
+    sScenePauseRect[2] = panelW + 4;
+    sScenePauseRect[3] = h + 4;
     Fill(x0 - 2, y0 - 2, panelW + 4, h + 4, MENU_GREY);
     Fill(x0, y0, panelW, h, 0xFFFFFFFFu);
     DrawText(title, x0 + 8, y0 + 4, MENU_RED_DARK, 0xFFD8D8D8u);
@@ -3052,6 +3074,13 @@ void PortUiDraw(uint32_t* frame, int width, int height) {
             shotStep = sSceneStep * 2 + sSceneCursor; /* harness: one shot per state */
             sHarnessTick = 100 + shotStep;
             HarnessOptionsShot(frame, width, height);
+            {
+                /* and the window as presented, every layer drawn: the panel must be on top of them */
+                extern void PortHarnessShot(const char* name);
+                char name[48];
+                SDL_snprintf(name, sizeof(name), "scenepause_out_%d.bmp", shotStep);
+                PortHarnessShot(name);
+            }
         }
         return;
     }

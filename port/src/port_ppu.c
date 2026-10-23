@@ -851,9 +851,10 @@ void PortPpuDumpOam(void) {
         uint16_t a0 = OAM16[i * 4], a1 = OAM16[i * 4 + 1], a2 = OAM16[i * 4 + 2];
         if ((a0 & 0x300) == 0x200)
             continue;
-        PortLog("oam %3d ext(%4d,%4d) raw(%3d,%3d) shape %d size %d prio %d pal %2d tile %4d mode %d hud %d ax %d ay %d", i,
-                sOamExt[i].x, sOamExt[i].y, a1 & 0x1FF, a0 & 0xFF, a0 >> 14, a1 >> 14, (a2 >> 10) & 3, a2 >> 12,
-                a2 & 0x3FF, (a0 >> 10) & 3, sOamTag[i].hud, sOamTag[i].ax, sOamTag[i].ay);
+        PortLog("oam %3d ext(%4d,%4d) raw(%3d,%3d) shape %d size %d prio %d pal %2d tile %4d mode %d hud %d ax %d ay %d "
+                "text %d '%c' style %d", i, sOamExt[i].x, sOamExt[i].y, a1 & 0x1FF, a0 & 0xFF, a0 >> 14, a1 >> 14,
+                (a2 >> 10) & 3, a2 >> 12, a2 & 0x3FF, (a0 >> 10) & 3, sOamTag[i].hud, sOamTag[i].ax, sOamTag[i].ay,
+                sOamTag[i].text, sOamTag[i].text > 0x20 && sOamTag[i].text < 0x7F ? sOamTag[i].text : '.', sOamTag[i].style);
     }
 }
 

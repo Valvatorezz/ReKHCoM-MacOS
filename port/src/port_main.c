@@ -1787,6 +1787,16 @@ static void Present(void) {
         if (!menuCanvas) PortHdTextHudDigits(sRenderer, hd.x, hd.y, (float)gPortHudScale);
         PortHdTextDraw(sRenderer, 1, hd.x, hd.y, (float)gPortHudScale);
     }
+    {
+        /* the scene pause's panel above every HD layer (it is drawn on the picture, under them) */
+        extern int PortUiScenePauseRect(int r[4]);
+        int r[4];
+        if (!menuCanvas && PortUiScenePauseRect(r)) {
+            SDL_FRect ps = { (float)r[0], (float)r[1], (float)r[2], (float)r[3] };
+            SDL_FRect pd = { worldX + r[0] * worldScale, worldY + r[1] * worldScale, r[2] * worldScale, r[3] * worldScale };
+            SDL_RenderTexture(sRenderer, sTexture, &ps, &pd);
+        }
+    }
     DrawScanlines(&dst, outW);
     {
         /* state / slot notices: topmost, at the window's scale */

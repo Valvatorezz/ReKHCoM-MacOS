@@ -2895,7 +2895,11 @@ u8 UpdateEventSeqSkip() {
    not an answer to a yes/no choice) opens it; its "skip scene" ends the scene
    exactly as holding START does, where the game allows that. */
 void PortUiOpenScenePause(int skippable);
-static u8 sPortStartFrames, sPortStartChoice, sPortSkipRequest;
+static u8 sPortStartFrames, sPortStartChoice, sPortSkipRequest, sPortStartVoid;
+static unsigned sPortStartSerial;
+static const void* sPortStartWork; /* the event the START count belongs to */
+static u16 sPortStartEvent;
+unsigned PortUiOpenSerial(void);
 
 void PortEventSkipScene(void) {
     sPortSkipRequest = TRUE;
@@ -2922,15 +2926,30 @@ u8 UpdateEventSeq(EventSeqWork* work, void* task) {
     }
 
 #ifdef PLATFORM_PC
+    /* A tap is a START pressed and released within this event, alone, with the options never opened meanwhile: a
+       START held into the event, or the one of START + SELECT (the options) released as they close, opened the
+       pause on its own (23/10). */
+    if (sPortStartWork != work || sPortStartEvent != work->eventId) {
+        sPortStartWork = work;
+        sPortStartEvent = work->eventId;
+        sPortStartFrames = 0;
+        sPortStartVoid = (GetKeysHeld() & START_BUTTON) != 0;
+    }
     if (GetKeysHeld() & START_BUTTON) {
-        if (sPortStartFrames == 0)
+        if (sPortStartFrames == 0) {
             sPortStartChoice = gEventState->msgWaitActive && gEventState->askedYesNo;
+            sPortStartSerial = PortUiOpenSerial();
+        }
+        if (GetKeysHeld() & SELECT_BUTTON)
+            sPortStartVoid = TRUE;
         if (sPortStartFrames < 255)
             sPortStartFrames++;
     } else {
-        if (sPortStartFrames > 0 && sPortStartFrames <= 32 && !sPortStartChoice && !work->ending)
+        if (sPortStartFrames > 0 && sPortStartFrames <= 32 && !sPortStartChoice && !work->ending && !sPortStartVoid
+            && sPortStartSerial == PortUiOpenSerial())
             PortUiOpenScenePause(PortEventSkippable(work->eventId));
         sPortStartFrames = 0;
+        sPortStartVoid = FALSE;
     }
     if (sPortSkipRequest) {
         sPortSkipRequest = FALSE;
@@ -2944,7 +2963,12 @@ u8 UpdateEventSeq(EventSeqWork* work, void* task) {
     }
 #endif
 
+#ifdef PLATFORM_PC
+    /* holding START skips the scene, but not the START of START + SELECT (the options) */
+    if ((GetKeysHeld() & START_BUTTON) != 0 && !sPortStartVoid && sPortStartSerial == PortUiOpenSerial()) {
+#else
     if ((GetKeysHeld() & START_BUTTON) != 0) {
+#endif
         switch (work->eventId) {
         case EVENT_068_13F_CASTLE_OBLIVION_LAST3:
         case EVENT_083_MONSTORO_E3_FAILURE_1:

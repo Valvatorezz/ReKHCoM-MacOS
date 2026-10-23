@@ -128,53 +128,6 @@ static void Unload(int i) {
     sState[i].bytes = 0;
 }
 
-/* Group 4 (the world images): Re:CoM's picture stands on an opaque glow, so it keeps only the cartridge sprite's
-   silhouette, read from its frame and tiles and sampled bilinearly (a soft edge one GBA pixel wide). */
-static void MaskBySprite(unsigned char* px, int w, int h, const HdSpriteDef* d) {
-    static const unsigned char kSize[3][4][2] = { { { 8, 8 }, { 16, 16 }, { 32, 32 }, { 64, 64 } },
-                                                  { { 16, 8 }, { 32, 8 }, { 32, 16 }, { 64, 32 } },
-                                                  { { 8, 16 }, { 8, 32 }, { 16, 32 }, { 32, 64 } } };
-    const unsigned char* frame = d->frame;
-    const unsigned char* tiles = d->tiles;
-    unsigned char* mask;
-    int n, k, x, y;
-    if (!frame || d->w < 1 || d->h < 1 || !(mask = SDL_calloc((size_t)d->w * d->h, 1)))
-        return;
-    n = frame[0] | frame[1] << 8;
-    for (k = 0; k < n && k < 64; k++) {
-        const unsigned char* a = frame + 2 + k * 6;
-        int a0 = a[0] | a[1] << 8, a1 = a[2] | a[3] << 8, a2 = a[4] | a[5] << 8;
-        int shape = a0 >> 14, pw, ph, ox = a1 & 0x1FF, oy = a0 & 0xFF, tx, ty;
-        if (shape > 2)
-            continue;
-        pw = kSize[shape][a1 >> 14][0];
-        ph = kSize[shape][a1 >> 14][1];
-        if (ox & 0x100) ox -= 512;
-        if (oy & 0x80) oy -= 256;
-        for (ty = 0; ty < ph; ty++)
-            for (tx = 0; tx < pw; tx++) {
-                int sx = (a1 & 0x1000) ? pw - 1 - tx : tx, sy = (a1 & 0x2000) ? ph - 1 - ty : ty;
-                int tile = (a2 & 0x3FF) + (sy >> 3) * (pw >> 3) + (sx >> 3);
-                int b = tiles[tile * 32 + (sy & 7) * 4 + ((sx & 7) >> 1)], v = (sx & 1) ? b >> 4 : b & 15;
-                int mx = ox + tx - d->x0, my = oy + ty - d->y0;
-                if (v && mx >= 0 && my >= 0 && mx < d->w && my < d->h)
-                    mask[my * d->w + mx] = 255;
-            }
-    }
-    for (y = 0; y < h; y++)
-        for (x = 0; x < w; x++) {
-            /* the mask at this pixel's centre, in GBA pixels */
-            float fx = (x + 0.5f) * d->w / w - 0.5f, fy = (y + 0.5f) * d->h / h - 0.5f;
-            int x0 = (int)SDL_floorf(fx), y0 = (int)SDL_floorf(fy), x1 = x0 + 1, y1 = y0 + 1;
-            float u = fx - x0, v = fy - y0, m;
-#define M(xx, yy) ((xx) < 0 || (yy) < 0 || (xx) >= d->w || (yy) >= d->h ? 0.0f : mask[(yy) * d->w + (xx)] / 255.0f)
-            m = (M(x0, y0) * (1 - u) + M(x1, y0) * u) * (1 - v) + (M(x0, y1) * (1 - u) + M(x1, y1) * u) * v;
-#undef M
-            px[(y * w + x) * 4 + 3] = (unsigned char)(px[(y * w + x) * 4 + 3] * m + 0.5f);
-        }
-    SDL_free(mask);
-}
-
 static int Load(int i) {
     char file[160];
     int w, h, n, k;
@@ -188,8 +141,6 @@ static int Load(int i) {
         PortLog("HD sprites: %s unreadable, the cartridge's sprite stays", file);
         return 0;
     }
-    if (kHdSprites[i].group == 4)
-        MaskBySprite(px, w, h, &kHdSprites[i]);
     need = (size_t)w * h * 8;
     /* the cards on screen stay; the oldest others make room (32 MB; 12 MB on Switch and PS Vita, whose memory is
        shared with the game's image and the host's own copy of each texture) */
@@ -321,6 +272,14 @@ static void Quad(SDL_Texture* t, const HdSpriteDraw* q, float ox, float oy, floa
        drawn at all), and it saves the work of what cannot be seen. */
     if (v[0].position.y == v[1].position.y && v[0].position.x == v[3].position.x) {
         int ow = 0, oh = 0;
+        /* Corners on whole pixels: pieces of one picture meet on a shared edge, and with the canvas on a half pixel
+           (the title's logo at x4.5) that edge ran through the pixel centres; the hundredth-of-a-pixel tilt below
+           then left that row to neither piece and the background showed as a thin line (23/10). Rounded, shared
+           edges stay shared. */
+        for (k = 0; k < 4; k++) {
+            v[k].position.x = SDL_roundf(v[k].position.x);
+            v[k].position.y = SDL_roundf(v[k].position.y);
+        }
         if (SDL_GetCurrentRenderOutputSize(sRenderer, &ow, &oh) && ow > 0 && oh > 0) {
             float x0 = v[0].position.x, x1 = v[1].position.x, y0 = v[0].position.y, y1 = v[3].position.y;
             float u0 = q->u0, u1 = q->u1, w0 = q->v0, w1 = q->v1;
