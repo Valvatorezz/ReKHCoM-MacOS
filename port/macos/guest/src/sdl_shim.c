@@ -313,10 +313,10 @@ bool SDL_SetRenderClipRect(SDL_Renderer* r, const SDL_Rect* rect) {
 }
 
 static void SetBlend(SDL_Renderer* r, SDL_BlendMode m) {
-    int on = m != SDL_BLENDMODE_NONE;
-    if (on != r->hostBlend) {
-        h_gfx_blend(on);
-        r->hostBlend = on;
+    int mode = (int)m;
+    if (mode != r->hostBlend) {
+        h_gfx_blend(mode);
+        r->hostBlend = mode;
     }
 }
 

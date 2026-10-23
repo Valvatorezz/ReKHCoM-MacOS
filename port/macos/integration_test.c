@@ -4,6 +4,40 @@
 #include "host.c"
 #undef main
 #include <assert.h>
+
+static void TestBlendModes(void) {
+    /* Half-transparent red over blue distinguishes alpha from additive blend. */
+    uint32_t red = 0x800000ff;
+    int tex = H_tex_create(&red, 1, 1, 0);
+    assert(tex >= 0);
+    const SDL_BlendMode modes[] = {
+        SDL_BLENDMODE_NONE, SDL_BLENDMODE_BLEND, SDL_BLENDMODE_ADD, SDL_BLENDMODE_BLEND
+    };
+    const int expected[][3] = {{255,0,0}, {128,0,127}, {128,0,255}, {128,0,127}};
+    for (int textured = 0; textured < 2; ++textured) {
+        uint32_t tint = textured ? 0xffffffff : 0x80ff0000;
+        HostVertex vertices[3] = {
+            {0,0,0,0,tint}, {240,0,1,0,tint}, {0,160,0,1,tint}
+        };
+        for (unsigned i = 0; i < sizeof(modes)/sizeof(modes[0]); ++i) {
+            H_gfx_begin(0xff0000ff);
+            H_gfx_blend((int)modes[i]);
+            H_gfx_draw(textured ? tex : -1, vertices, 3);
+            SDL_Surface* surface = SDL_RenderReadPixels(sRenderer, NULL);
+            assert(surface);
+            Uint8 r,g,b,a;
+            assert(SDL_ReadSurfacePixel(surface, 1, 1, &r, &g, &b, &a));
+            assert(abs((int)r-expected[i][0]) <= 2);
+            assert(abs((int)g-expected[i][1]) <= 2);
+            assert(abs((int)b-expected[i][2]) <= 2);
+            SDL_DestroySurface(surface);
+        }
+    }
+    H_tex_free(tex);
+    H_gfx_blend(SDL_BLENDMODE_BLEND);
+    puts("PASS alpha/additive blend modes for textured and untextured triangles");
+}
+
 int main(void) {
     _Static_assert(sizeof(HostVertex)==20,"vertex ABI");
     _Static_assert(sizeof(HostPad)==20,"pad ABI");
@@ -56,6 +90,7 @@ int main(void) {
     Uint8 r,g,b,a;assert(SDL_ReadSurfacePixel(surface,1,1,&r,&g,&b,&a));assert(r==255&&g==255&&b==255);
     assert(SDL_SaveBMP(surface,"bridge-render.bmp"));SDL_DestroySurface(surface);H_tex_free(tex);
     puts("PASS native triangle rendering and readback");
+    TestBlendModes();
     assert(m4_coreExport15_macosX5FsramX5Ftest(&sCore)==0);
     m4_coreFreeInstance(&sCore);m4_coreInstantiate(&sCore,NULL);
     assert(m4_coreExport15_macosX5FsramX5Ftest(&sCore)==0);
