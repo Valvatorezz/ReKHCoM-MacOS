@@ -207,7 +207,7 @@ to the build that created them.
 - Movie transitions during events and the ending still need verification.
 - Neither Sora's story nor Reverse/Rebirth has a verified full playthrough.
 - Some rendering, audio streaming, and widescreen scenes still need verification.
-- macOS builds are not available.
+- macOS Apple Silicon: experimental local build instructions in [port/macos/README.md](port/macos/README.md).
 
 ## Building (Windows)
 

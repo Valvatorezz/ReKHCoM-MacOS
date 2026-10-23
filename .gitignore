@@ -54,3 +54,6 @@ tools/_tmp_movie_encode_re.md
 kh_com.ini
 kh_com.log
 shot_*.bmp
+
+# macOS Finder metadata
+.DS_Store
