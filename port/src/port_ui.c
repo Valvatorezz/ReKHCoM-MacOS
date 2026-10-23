@@ -212,7 +212,7 @@ static int ItemVisible(int item) {
             return HdImported("hd/scenes/zz_event_011.mp4") || HdImported("hd/movies/zz_event_011.mp4");
         case ITEM_HD_SUBTITLES: return HdImported("hd/subs/ROP.us.txt");
         case ITEM_HD_CARDS: return HdImported("hd/sprites/gCardWep01Tiles.png");
-        case ITEM_HD_TITLE: return HdImported("hd/sprites/gTitleLogoHeartTiles.png");
+        case ITEM_HD_TITLE: return 0; /* part of HD HUD (ITEM_HD_CARDS) since 23/10 */
         case ITEM_GBA_BORDER: return gPortConfig.viewMode == PORT_VIEW_ORIGINAL;
         /* the version and its difficulty are chosen at New Game and stay
            with the save, as in the original: no switch for them here */
@@ -292,12 +292,11 @@ static const char* const sLabels[ITEM_COUNT][LANG_COUNT] = {
     { "Skip frames when slow", "Sauter des images si lent", "Bilder überspringen wenn langsam",
       "Salta fotogrammi se lento", "Saltar cuadros si va lento", "遅い時はフレームを飛ばす" },
     { "Re:CoM improvements", "Améliorations Re:CoM", "Re:CoM-Verbesserungen", "Miglioramenti Re:CoM", "Mejoras de Re:CoM", "Re:CoMの改善" },
-    { "HD movies", "Vidéos HD", "HD-Videos", "Video HD", "Videos HD", "HDムービー" },
+    { "HD intros", "Intros HD", "HD-Intros", "Intro HD", "Intros HD", "HDイントロ" }, /* opening, credits, endings */
     { "HD music", "Musique HD", "HD-Musik", "Musica HD", "Música HD", "HDミュージック" },
     { "HD scenes", "Scènes HD", "HD-Szenen", "Scene HD", "Escenas HD", "HDシーン" },
     { "HD subtitles", "Sous-titres HD", "HD-Untertitel", "Sottotitoli HD", "Subtítulos HD", "HDじまく" },
-    { "HD cards and battle HUD", "Cartes et ATH de combat HD", "HD-Karten und Kampf-HUD", "Carte e HUD di battaglia HD",
-      "Cartas y HUD de combate HD", "HDカードと戦闘HUD" },
+    { "HD HUD", "ATH HD", "HD-HUD", "HUD HD", "HUD HD", "HD HUD" }, /* cards, battle HUD and title logo together */
     { "HD title logo", "Logo de titre HD", "HD-Titellogo", "Logo del titolo HD", "Logo del título HD", "HDタイトルロゴ" },
     { "Reset to a mode's defaults", "Réglages d'un mode", "Standard eines Modus", "Predefiniti di una modalità",
       "Restablecer según el modo", "モードの初期値に戻す" },
@@ -450,12 +449,12 @@ static const char* const sNgDescHdMusic[LANG_COUNT] = {
     "カートリッジの音楽の代わりにKH HD 1.5+2.5のRe:チェイン オブ メモリーズのサウンドトラック。",
 };
 static const char* const sNgDescHdMovies[LANG_COUNT] = {
-    "The opening and the endings as the HD movies of your KH HD 1.5+2.5.",
-    "L'ouverture et les fins avec les vidéos HD de votre KH HD 1.5+2.5.",
-    "Intro und Abspänne als HD-Videos aus deinem KH HD 1.5+2.5.",
-    "L'introduzione e i finali con i video HD del tuo KH HD 1.5+2.5.",
-    "La introducción y los finales con los videos HD de tu KH HD 1.5+2.5.",
-    "オープニングとエンディングをKH HD 1.5+2.5のHDムービーで。",
+    "The opening, the credits and the endings as the HD movies of your KH HD 1.5+2.5.",
+    "L'ouverture, le générique et les fins avec les vidéos HD de votre KH HD 1.5+2.5.",
+    "Intro, Abspann und Enden als HD-Videos aus deinem KH HD 1.5+2.5.",
+    "L'introduzione, i titoli di coda e i finali con i video HD del tuo KH HD 1.5+2.5.",
+    "La introducción, los créditos y los finales con los videos HD de tu KH HD 1.5+2.5.",
+    "オープニング、スタッフロール、エンディングをKH HD 1.5+2.5のHDムービーで。",
 };
 static const char* const sNgDescHdScenes[LANG_COUNT] = {
     "Story scenes that Re:CoM has as movies play them instead (English voices, subtitles in your language).",
@@ -464,6 +463,14 @@ static const char* const sNgDescHdScenes[LANG_COUNT] = {
     "Le scene che Re:CoM ha come video vengono riprodotte così (voci inglesi, sottotitoli nella tua lingua).",
     "Las escenas que Re:CoM tiene en video se ven así (voces en inglés, subtítulos en tu idioma).",
     "Re:CoMでムービーになっている場面はそれで再生（英語音声、じまくはゲームの言語）。",
+};
+static const char* const sNgDescHdHud[LANG_COUNT] = {
+    "The HUD is what is drawn over the game: cards, HP, battle words and the title's logo, in Re:CoM's HD art.",
+    "L'ATH est ce qui s'affiche par-dessus le jeu : cartes, PV, mots de combat et logo du titre, en art HD de Re:CoM.",
+    "Das HUD ist, was über dem Spiel liegt: Karten, KP, Kampfwörter und das Titellogo, in Re:CoMs HD-Grafik.",
+    "L'HUD è ciò che appare sopra il gioco: carte, PV, parole di battaglia e logo del titolo, con la grafica HD di Re:CoM.",
+    "El HUD es lo que se dibuja sobre el juego: cartas, vida, palabras de combate y el logo del título, con el arte HD de Re:CoM.",
+    "HUDはゲームの上に表示されるもの（カード、HP、戦闘の文字、タイトルロゴ）で、Re:CoMのHDの絵になります。",
 };
 static const char* const sNgDescQol[LANG_COUNT] = {
     "One button for the dodge roll and for stocking cards (L+R).",
@@ -1203,8 +1210,9 @@ static void Change(int item, int dir) {
         case ITEM_HD_SUBTITLES:
             gPortConfig.hdSubtitles = !gPortConfig.hdSubtitles;
             break;
-        case ITEM_HD_CARDS:
+        case ITEM_HD_CARDS: /* HD HUD: the cards, the battle HUD and the title's logo together */
             gPortConfig.hdCards = !gPortConfig.hdCards;
+            gPortConfig.hdTitle = gPortConfig.hdCards;
             break;
         case ITEM_HD_TITLE:
             gPortConfig.hdTitle = !gPortConfig.hdTitle;
@@ -2184,7 +2192,7 @@ static const char* const sWizHelpFirst[LANG_COUNT] = {
 
 /* the options step: HD text, the one-button controls, then the HD mod's music, movies and (Re:CoM) scenes once
    imported, then Start */
-enum { WOPT_WIDE, WOPT_HDTEXT, WOPT_QOL, WOPT_HDMUSIC, WOPT_HDMOVIES, WOPT_HDSCENES, WOPT_START };
+enum { WOPT_WIDE, WOPT_HDTEXT, WOPT_QOL, WOPT_HDMUSIC, WOPT_HDMOVIES, WOPT_HDSCENES, WOPT_HDHUD, WOPT_START };
 static int WizOptions(int* kinds) {
     int n = 0;
     /* GBA classic starts with everything off: a new game still offers the wide view */
@@ -2196,14 +2204,16 @@ static int WizOptions(int* kinds) {
         kinds[n++] = WOPT_HDMUSIC;
     if (ItemVisible(ITEM_HD_MOVIES))
         kinds[n++] = WOPT_HDMOVIES;
-    if (sNgRecom && ItemVisible(ITEM_HD_SCENES))
+    if (ItemVisible(ITEM_HD_SCENES))
         kinds[n++] = WOPT_HDSCENES;
+    if (ItemVisible(ITEM_HD_CARDS))
+        kinds[n++] = WOPT_HDHUD;
     kinds[n++] = WOPT_START;
     return n;
 }
 
 static int WizRows(void) {
-    int kinds[8];
+    int kinds[9];
     return sWizStep == WIZ_VERSION || sWizStep >= WIZ_MODE ? 2 : sWizStep == WIZ_DIFFICULTY ? 3 : WizOptions(kinds);
 }
 
@@ -2223,7 +2233,14 @@ static void WizFinish(void) {
 
 /* key: 0 up, 1 down, 2 left/right (toggle), 3 A, 4 B */
 static void WizKey(int key) {
+    extern void PortMenuSoundClick(void);
+    extern void PortMenuSoundDecide(int confirm);
     int rows = WizRows();
+    /* the menus' own sounds, as in the options: the cursor's click, a toggle's click, A and B (23/10) */
+    if (key == 0 || key == 1 || (key == 2 && sWizStep == WIZ_OPTIONS))
+        PortMenuSoundClick();
+    else if (key == 3 || (key == 4 && (sWizStep == WIZ_MODE_GBA || sWizStep == WIZ_OPTIONS || sWizStep == WIZ_DIFFICULTY)))
+        PortMenuSoundDecide(key == 3);
     switch (key) {
         case 0: sWizCursor = (sWizCursor + rows - 1) % rows; return;
         case 1: sWizCursor = (sWizCursor + 1) % rows; return;
@@ -2274,7 +2291,7 @@ static void WizKey(int key) {
         sWizStep = WIZ_OPTIONS;
         sWizCursor = 0;
     } else if (sWizStep == WIZ_OPTIONS) {
-        int kinds[8], toggle = key == 2 || key == 3;
+        int kinds[9], toggle = key == 2 || key == 3;
         WizOptions(kinds);
         switch (kinds[sWizCursor]) {
             case WOPT_WIDE:
@@ -2304,6 +2321,10 @@ static void WizKey(int key) {
             case WOPT_HDSCENES:
                 if (toggle)
                     gPortConfig.hdScenes = !gPortConfig.hdScenes;
+                break;
+            case WOPT_HDHUD:
+                if (toggle)
+                    gPortConfig.hdTitle = gPortConfig.hdCards = !gPortConfig.hdCards;
                 break;
             default:
                 if (key == 3)
@@ -2393,7 +2414,7 @@ static void DrawWizard(int l, int width, int height) {
             subs[i] = sNgDescDifficulty[order[i]][l];
         }
     } else {
-        int kinds[8], n = WizOptions(kinds);
+        int kinds[9], n = WizOptions(kinds);
         for (i = 0; i < n; i++) {
             switch (kinds[i]) {
                 case WOPT_WIDE:
@@ -2417,8 +2438,12 @@ static void DrawWizard(int l, int width, int height) {
                     values[i] = sOnOff[gPortConfig.hdMovies != 0][l];
                     break;
                 case WOPT_HDSCENES:
-                    labels[i] = sLabels[ITEM_PS2_HDSCENES][l]; subs[i] = sNgDescHdScenes[l];
+                    labels[i] = sLabels[ITEM_HD_SCENES][l]; subs[i] = sNgDescHdScenes[l];
                     values[i] = sOnOff[gPortConfig.hdScenes != 0][l];
+                    break;
+                case WOPT_HDHUD:
+                    labels[i] = sLabels[ITEM_HD_CARDS][l]; subs[i] = sNgDescHdHud[l];
+                    values[i] = sOnOff[gPortConfig.hdCards != 0][l];
                     break;
                 default:
                     labels[i] = sWizConfirm[l]; subs[i] = sNgDescStart[l];

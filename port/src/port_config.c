@@ -435,8 +435,8 @@ void PortApplyGraphicsMode(int mode) {
     gPortConfig.hdCards = hd;
     gPortConfig.hdTitle = hd;
     gPortConfig.hdMusic = hd;
-    gPortConfig.hdMovies = hd;
-    gPortConfig.hdSubtitles = hd;
+    gPortConfig.hdMovies = !classic; /* HD intros (opening, credits, endings): on unless GBA Original */
+    gPortConfig.hdSubtitles = !classic;
     gPortConfig.hdScenes = hd;
     PortSetQolButtons(!classic);
     gPortConfig.gbaBorder = classic ? (gPortConfig.gbaBorder ? gPortConfig.gbaBorder : 1) : 0;

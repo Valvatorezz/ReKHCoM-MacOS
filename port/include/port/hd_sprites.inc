@@ -632,6 +632,216 @@ extern const unsigned char gDeckTitleBannerFrame0[];
 extern const unsigned char gRikuDeckTitleBannerTiles[];
 extern const unsigned char gRikuDeckTitleBannerFrame0[];
 #endif
+extern const unsigned char gAeroSmallCardTiles[];
+extern const unsigned char gAeroSmallCardFrame0[];
+extern const unsigned char gAirPirateSmallCardTiles[];
+extern const unsigned char gAirPirateSmallCardFrame0[];
+extern const unsigned char gAirSoldierSmallCardTiles[];
+extern const unsigned char gAirSoldierSmallCardFrame0[];
+extern const unsigned char gAladdinSmallCardTiles[];
+extern const unsigned char gAladdinSmallCardFrame0[];
+extern const unsigned char gAnsemSmallCardTiles[];
+extern const unsigned char gAnsemSmallCardFrame0[];
+extern const unsigned char gAnsemASmallCardTiles[];
+extern const unsigned char gAnsemASmallCardFrame0[];
+extern const unsigned char gAnsemBSmallCardTiles[];
+extern const unsigned char gAnsemBSmallCardFrame0[];
+extern const unsigned char gAquatankSmallCardTiles[];
+extern const unsigned char gAquatankSmallCardFrame0[];
+extern const unsigned char gArielSmallCardTiles[];
+extern const unsigned char gArielSmallCardFrame0[];
+extern const unsigned char gAxelSmallCardTiles[];
+extern const unsigned char gAxelSmallCardFrame0[];
+extern const unsigned char gBambiSmallCardTiles[];
+extern const unsigned char gBambiSmallCardFrame0[];
+extern const unsigned char gBanditSmallCardTiles[];
+extern const unsigned char gBanditSmallCardFrame0[];
+extern const unsigned char gBarrelSpiderSmallCardTiles[];
+extern const unsigned char gBarrelSpiderSmallCardFrame0[];
+extern const unsigned char gBlackFungusSmallCardTiles[];
+extern const unsigned char gBlackFungusSmallCardFrame0[];
+extern const unsigned char gBlizzardSmallCardTiles[];
+extern const unsigned char gBlizzardSmallCardFrame0[];
+extern const unsigned char gBouncywildSmallCardTiles[];
+extern const unsigned char gBouncywildSmallCardFrame0[];
+extern const unsigned char gCardSoldierHeartSmallCardTiles[];
+extern const unsigned char gCardSoldierHeartSmallCardFrame0[];
+extern const unsigned char gCardSoldierSpadeSmallCardTiles[];
+extern const unsigned char gCardSoldierSpadeSmallCardFrame0[];
+extern const unsigned char gCloudSmallCardTiles[];
+extern const unsigned char gCloudSmallCardFrame0[];
+extern const unsigned char gCrabclawSmallCardTiles[];
+extern const unsigned char gCrabclawSmallCardFrame0[];
+extern const unsigned char gCreeperPlantSmallCardTiles[];
+extern const unsigned char gCreeperPlantSmallCardFrame0[];
+extern const unsigned char gCrescendoSmallCardTiles[];
+extern const unsigned char gCrescendoSmallCardFrame0[];
+extern const unsigned char gCureSmallCardTiles[];
+extern const unsigned char gCureSmallCardFrame0[];
+extern const unsigned char gDarkballSmallCardTiles[];
+extern const unsigned char gDarkballSmallCardFrame0[];
+extern const unsigned char gDarksideSmallCardTiles[];
+extern const unsigned char gDarksideSmallCardFrame0[];
+extern const unsigned char gDefenderSmallCardTiles[];
+extern const unsigned char gDefenderSmallCardFrame0[];
+extern const unsigned char gDiamondDustSmallCardTiles[];
+extern const unsigned char gDiamondDustSmallCardFrame0[];
+extern const unsigned char gDivineRoseSmallCardTiles[];
+extern const unsigned char gDivineRoseSmallCardFrame0[];
+extern const unsigned char gDonaldDuckSmallCardTiles[];
+extern const unsigned char gDonaldDuckSmallCardFrame0[];
+extern const unsigned char gDragonMaleficentSmallCardTiles[];
+extern const unsigned char gDragonMaleficentSmallCardFrame0[];
+extern const unsigned char gDumboSmallCardTiles[];
+extern const unsigned char gDumboSmallCardFrame0[];
+extern const unsigned char gElixirSmallCardTiles[];
+extern const unsigned char gElixirSmallCardFrame0[];
+extern const unsigned char gEtherSmallCardTiles[];
+extern const unsigned char gEtherSmallCardFrame0[];
+extern const unsigned char gFairyHarpSmallCardTiles[];
+extern const unsigned char gFairyHarpSmallCardFrame0[];
+extern const unsigned char gFatBanditSmallCardTiles[];
+extern const unsigned char gFatBanditSmallCardFrame0[];
+extern const unsigned char gFireSmallCardTiles[];
+extern const unsigned char gFireSmallCardFrame0[];
+extern const unsigned char gGargoyleSmallCardTiles[];
+extern const unsigned char gGargoyleSmallCardFrame0[];
+extern const unsigned char gGenieSmallCardTiles[];
+extern const unsigned char gGenieSmallCardFrame0[];
+extern const unsigned char gGoofySmallCardTiles[];
+extern const unsigned char gGoofySmallCardFrame0[];
+extern const unsigned char gGravitySmallCardTiles[];
+extern const unsigned char gGravitySmallCardFrame0[];
+extern const unsigned char gGuardArmorSmallCardTiles[];
+extern const unsigned char gGuardArmorSmallCardFrame0[];
+extern const unsigned char gHadesSmallCardTiles[];
+extern const unsigned char gHadesSmallCardFrame0[];
+extern const unsigned char gHiPotionSmallCardTiles[];
+extern const unsigned char gHiPotionSmallCardFrame0[];
+extern const unsigned char gHookSmallCardTiles[];
+extern const unsigned char gHookSmallCardFrame0[];
+extern const unsigned char gHookASmallCardTiles[];
+extern const unsigned char gHookASmallCardFrame0[];
+extern const unsigned char gHookBSmallCardTiles[];
+extern const unsigned char gHookBSmallCardFrame0[];
+extern const unsigned char gHookCSmallCardTiles[];
+extern const unsigned char gHookCSmallCardFrame0[];
+extern const unsigned char gJackSmallCardTiles[];
+extern const unsigned char gJackSmallCardFrame0[];
+extern const unsigned char gJafarSmallCardTiles[];
+extern const unsigned char gJafarSmallCardFrame0[];
+extern const unsigned char gKingdomKeySmallCardTiles[];
+extern const unsigned char gKingdomKeySmallCardFrame0[];
+extern const unsigned char gLadyLuckSmallCardTiles[];
+extern const unsigned char gLadyLuckSmallCardFrame0[];
+extern const unsigned char gLargeBodySmallCardTiles[];
+extern const unsigned char gLargeBodySmallCardFrame0[];
+extern const unsigned char gLarxeneSmallCardTiles[];
+extern const unsigned char gLarxeneSmallCardFrame0[];
+extern const unsigned char gLexaeusSmallCardTiles[];
+extern const unsigned char gLexaeusSmallCardFrame0[];
+extern const unsigned char gLexaeusASmallCardTiles[];
+extern const unsigned char gLexaeusASmallCardFrame0[];
+extern const unsigned char gLexaeusBSmallCardTiles[];
+extern const unsigned char gLexaeusBSmallCardFrame0[];
+extern const unsigned char gLionheartSmallCardTiles[];
+extern const unsigned char gLionheartSmallCardFrame0[];
+extern const unsigned char gMarluxiaSmallCardTiles[];
+extern const unsigned char gMarluxiaSmallCardFrame0[];
+extern const unsigned char gMarluxia2SmallCardTiles[];
+extern const unsigned char gMarluxia2SmallCardFrame0[];
+extern const unsigned char gMarluxiaASmallCardTiles[];
+extern const unsigned char gMarluxiaASmallCardFrame0[];
+extern const unsigned char gMarluxiaBSmallCardTiles[];
+extern const unsigned char gMarluxiaBSmallCardFrame0[];
+extern const unsigned char gMarluxiaCSmallCardTiles[];
+extern const unsigned char gMarluxiaCSmallCardFrame0[];
+extern const unsigned char gMegaEtherSmallCardTiles[];
+extern const unsigned char gMegaEtherSmallCardFrame0[];
+extern const unsigned char gMegaPotionSmallCardTiles[];
+extern const unsigned char gMegaPotionSmallCardFrame0[];
+extern const unsigned char gMegalixirSmallCardTiles[];
+extern const unsigned char gMegalixirSmallCardFrame0[];
+extern const unsigned char gMetalChocoboSmallCardTiles[];
+extern const unsigned char gMetalChocoboSmallCardFrame0[];
+extern const unsigned char gMushuSmallCardTiles[];
+extern const unsigned char gMushuSmallCardFrame0[];
+extern const unsigned char gNeoshadowSmallCardTiles[];
+extern const unsigned char gNeoshadowSmallCardFrame0[];
+extern const unsigned char gOathkeeperSmallCardTiles[];
+extern const unsigned char gOathkeeperSmallCardFrame0[];
+extern const unsigned char gOblivionSmallCardTiles[];
+extern const unsigned char gOblivionSmallCardFrame0[];
+extern const unsigned char gOlympiaSmallCardTiles[];
+extern const unsigned char gOlympiaSmallCardFrame0[];
+extern const unsigned char gOneWingedAngelSmallCardTiles[];
+extern const unsigned char gOneWingedAngelSmallCardFrame0[];
+extern const unsigned char gOogieBoogieSmallCardTiles[];
+extern const unsigned char gOogieBoogieSmallCardFrame0[];
+extern const unsigned char gPeterPanSmallCardTiles[];
+extern const unsigned char gPeterPanSmallCardFrame0[];
+extern const unsigned char gPirateSmallCardTiles[];
+extern const unsigned char gPirateSmallCardFrame0[];
+extern const unsigned char gPotionSmallCardTiles[];
+extern const unsigned char gPotionSmallCardFrame0[];
+extern const unsigned char gPowerwildSmallCardTiles[];
+extern const unsigned char gPowerwildSmallCardFrame0[];
+extern const unsigned char gPumpkinheadSmallCardTiles[];
+extern const unsigned char gPumpkinheadSmallCardFrame0[];
+extern const unsigned char gRedNocturneSmallCardTiles[];
+extern const unsigned char gRedNocturneSmallCardFrame0[];
+extern const unsigned char gRikuSmallCardTiles[];
+extern const unsigned char gRikuSmallCardFrame0[];
+extern const unsigned char gScrewdiverSmallCardTiles[];
+extern const unsigned char gScrewdiverSmallCardFrame0[];
+extern const unsigned char gSeaNeonSmallCardTiles[];
+extern const unsigned char gSeaNeonSmallCardFrame0[];
+extern const unsigned char gSearchGhostSmallCardTiles[];
+extern const unsigned char gSearchGhostSmallCardFrame0[];
+extern const unsigned char gShadowSmallCardTiles[];
+extern const unsigned char gShadowSmallCardFrame0[];
+extern const unsigned char gSimbaSmallCardTiles[];
+extern const unsigned char gSimbaSmallCardFrame0[];
+extern const unsigned char gSoldierSmallCardTiles[];
+extern const unsigned char gSoldierSmallCardFrame0[];
+extern const unsigned char gSoulEaterSmallCardTiles[];
+extern const unsigned char gSoulEaterSmallCardFrame0[];
+extern const unsigned char gSpellbinderSmallCardTiles[];
+extern const unsigned char gSpellbinderSmallCardFrame0[];
+extern const unsigned char gStopSmallCardTiles[];
+extern const unsigned char gStopSmallCardFrame0[];
+extern const unsigned char gTheBeastSmallCardTiles[];
+extern const unsigned char gTheBeastSmallCardFrame0[];
+extern const unsigned char gTheKingSmallCardTiles[];
+extern const unsigned char gTheKingSmallCardFrame0[];
+extern const unsigned char gThreeWishesSmallCardTiles[];
+extern const unsigned char gThreeWishesSmallCardFrame0[];
+extern const unsigned char gThunderSmallCardTiles[];
+extern const unsigned char gThunderSmallCardFrame0[];
+extern const unsigned char gTinkerBellSmallCardTiles[];
+extern const unsigned char gTinkerBellSmallCardFrame0[];
+extern const unsigned char gTornadoStepSmallCardTiles[];
+extern const unsigned char gTornadoStepSmallCardFrame0[];
+extern const unsigned char gUltimaWeaponSmallCardTiles[];
+extern const unsigned char gUltimaWeaponSmallCardFrame0[];
+extern const unsigned char gUrsulaSmallCardTiles[];
+extern const unsigned char gUrsulaSmallCardFrame0[];
+extern const unsigned char gVexenSmallCardTiles[];
+extern const unsigned char gVexenSmallCardFrame0[];
+extern const unsigned char gVexenASmallCardTiles[];
+extern const unsigned char gVexenASmallCardFrame0[];
+extern const unsigned char gVexenBSmallCardTiles[];
+extern const unsigned char gVexenBSmallCardFrame0[];
+extern const unsigned char gWhiteMushroomSmallCardTiles[];
+extern const unsigned char gWhiteMushroomSmallCardFrame0[];
+extern const unsigned char gWightKnightSmallCardTiles[];
+extern const unsigned char gWightKnightSmallCardFrame0[];
+extern const unsigned char gWishingStarSmallCardTiles[];
+extern const unsigned char gWishingStarSmallCardFrame0[];
+extern const unsigned char gWizardSmallCardTiles[];
+extern const unsigned char gWizardSmallCardFrame0[];
+extern const unsigned char gWyvernSmallCardTiles[];
+extern const unsigned char gWyvernSmallCardFrame0[];
 static const HdSpriteDef kHdSprites[] = {
     { gCardWep01Tiles, NULL, "gCardWep01Tiles", -16, -12, 32, 32, 1 },
     { gCardWep04Tiles, NULL, "gCardWep04Tiles", -16, -12, 32, 32, 1 },
@@ -1106,4 +1316,109 @@ static const HdSpriteDef kHdSprites[] = {
 #if defined(VERSION_EU) || defined(VERSION_US)
     { gRikuDeckTitleBannerTiles, gRikuDeckTitleBannerFrame0, "gRikuDeckTitleBannerBanner", 0, 0, 104, 16, 5 },
 #endif
+    { gAeroSmallCardTiles, gAeroSmallCardFrame0, "gAeroSmallCardHD", -8, -20, 16, 32, 6 },
+    { gAirPirateSmallCardTiles, gAirPirateSmallCardFrame0, "gAirPirateSmallCardHD", -8, -20, 16, 32, 6 },
+    { gAirSoldierSmallCardTiles, gAirSoldierSmallCardFrame0, "gAirSoldierSmallCardHD", -8, -20, 16, 32, 6 },
+    { gAladdinSmallCardTiles, gAladdinSmallCardFrame0, "gAladdinSmallCardHD", -8, -20, 16, 32, 6 },
+    { gAnsemSmallCardTiles, gAnsemSmallCardFrame0, "gAnsemSmallCardHD", -8, -20, 16, 32, 6 },
+    { gAnsemASmallCardTiles, gAnsemASmallCardFrame0, "gAnsemASmallCardHD", -8, -20, 16, 32, 6 },
+    { gAnsemBSmallCardTiles, gAnsemBSmallCardFrame0, "gAnsemBSmallCardHD", -8, -20, 16, 32, 6 },
+    { gAquatankSmallCardTiles, gAquatankSmallCardFrame0, "gAquatankSmallCardHD", -8, -20, 16, 32, 6 },
+    { gArielSmallCardTiles, gArielSmallCardFrame0, "gArielSmallCardHD", -8, -20, 16, 32, 6 },
+    { gAxelSmallCardTiles, gAxelSmallCardFrame0, "gAxelSmallCardHD", -8, -20, 16, 32, 6 },
+    { gBambiSmallCardTiles, gBambiSmallCardFrame0, "gBambiSmallCardHD", -8, -20, 16, 32, 6 },
+    { gBanditSmallCardTiles, gBanditSmallCardFrame0, "gBanditSmallCardHD", -8, -20, 16, 32, 6 },
+    { gBarrelSpiderSmallCardTiles, gBarrelSpiderSmallCardFrame0, "gBarrelSpiderSmallCardHD", -8, -20, 16, 32, 6 },
+    { gBlackFungusSmallCardTiles, gBlackFungusSmallCardFrame0, "gBlackFungusSmallCardHD", -8, -20, 16, 32, 6 },
+    { gBlizzardSmallCardTiles, gBlizzardSmallCardFrame0, "gBlizzardSmallCardHD", -8, -20, 16, 32, 6 },
+    { gBouncywildSmallCardTiles, gBouncywildSmallCardFrame0, "gBouncywildSmallCardHD", -8, -20, 16, 32, 6 },
+    { gCardSoldierHeartSmallCardTiles, gCardSoldierHeartSmallCardFrame0, "gCardSoldierHeartSmallCardHD", -8, -20, 16, 32, 6 },
+    { gCardSoldierSpadeSmallCardTiles, gCardSoldierSpadeSmallCardFrame0, "gCardSoldierSpadeSmallCardHD", -8, -20, 16, 32, 6 },
+    { gCloudSmallCardTiles, gCloudSmallCardFrame0, "gCloudSmallCardHD", -8, -20, 16, 32, 6 },
+    { gCrabclawSmallCardTiles, gCrabclawSmallCardFrame0, "gCrabclawSmallCardHD", -8, -20, 16, 32, 6 },
+    { gCreeperPlantSmallCardTiles, gCreeperPlantSmallCardFrame0, "gCreeperPlantSmallCardHD", -8, -20, 16, 32, 6 },
+    { gCrescendoSmallCardTiles, gCrescendoSmallCardFrame0, "gCrescendoSmallCardHD", -8, -20, 16, 32, 6 },
+    { gCureSmallCardTiles, gCureSmallCardFrame0, "gCureSmallCardHD", -8, -20, 16, 32, 6 },
+    { gDarkballSmallCardTiles, gDarkballSmallCardFrame0, "gDarkballSmallCardHD", -8, -20, 16, 32, 6 },
+    { gDarksideSmallCardTiles, gDarksideSmallCardFrame0, "gDarksideSmallCardHD", -8, -20, 16, 32, 6 },
+    { gDefenderSmallCardTiles, gDefenderSmallCardFrame0, "gDefenderSmallCardHD", -8, -20, 16, 32, 6 },
+    { gDiamondDustSmallCardTiles, gDiamondDustSmallCardFrame0, "gDiamondDustSmallCardHD", -8, -20, 16, 32, 6 },
+    { gDivineRoseSmallCardTiles, gDivineRoseSmallCardFrame0, "gDivineRoseSmallCardHD", -8, -20, 16, 32, 6 },
+    { gDonaldDuckSmallCardTiles, gDonaldDuckSmallCardFrame0, "gDonaldDuckSmallCardHD", -8, -20, 16, 32, 6 },
+    { gDragonMaleficentSmallCardTiles, gDragonMaleficentSmallCardFrame0, "gDragonMaleficentSmallCardHD", -8, -20, 16, 32, 6 },
+    { gDumboSmallCardTiles, gDumboSmallCardFrame0, "gDumboSmallCardHD", -8, -20, 16, 32, 6 },
+    { gElixirSmallCardTiles, gElixirSmallCardFrame0, "gElixirSmallCardHD", -8, -20, 16, 32, 6 },
+    { gEtherSmallCardTiles, gEtherSmallCardFrame0, "gEtherSmallCardHD", -8, -20, 16, 32, 6 },
+    { gFairyHarpSmallCardTiles, gFairyHarpSmallCardFrame0, "gFairyHarpSmallCardHD", -8, -20, 16, 32, 6 },
+    { gFatBanditSmallCardTiles, gFatBanditSmallCardFrame0, "gFatBanditSmallCardHD", -8, -20, 16, 32, 6 },
+    { gFireSmallCardTiles, gFireSmallCardFrame0, "gFireSmallCardHD", -8, -20, 16, 32, 6 },
+    { gGargoyleSmallCardTiles, gGargoyleSmallCardFrame0, "gGargoyleSmallCardHD", -8, -20, 16, 32, 6 },
+    { gGenieSmallCardTiles, gGenieSmallCardFrame0, "gGenieSmallCardHD", -8, -20, 16, 32, 6 },
+    { gGoofySmallCardTiles, gGoofySmallCardFrame0, "gGoofySmallCardHD", -8, -20, 16, 32, 6 },
+    { gGravitySmallCardTiles, gGravitySmallCardFrame0, "gGravitySmallCardHD", -8, -20, 16, 32, 6 },
+    { gGuardArmorSmallCardTiles, gGuardArmorSmallCardFrame0, "gGuardArmorSmallCardHD", -8, -20, 16, 32, 6 },
+    { gHadesSmallCardTiles, gHadesSmallCardFrame0, "gHadesSmallCardHD", -8, -20, 16, 32, 6 },
+    { gHiPotionSmallCardTiles, gHiPotionSmallCardFrame0, "gHiPotionSmallCardHD", -8, -20, 16, 32, 6 },
+    { gHookSmallCardTiles, gHookSmallCardFrame0, "gHookSmallCardHD", -8, -20, 16, 32, 6 },
+    { gHookASmallCardTiles, gHookASmallCardFrame0, "gHookASmallCardHD", -8, -20, 16, 32, 6 },
+    { gHookBSmallCardTiles, gHookBSmallCardFrame0, "gHookBSmallCardHD", -8, -20, 16, 32, 6 },
+    { gHookCSmallCardTiles, gHookCSmallCardFrame0, "gHookCSmallCardHD", -8, -20, 16, 32, 6 },
+    { gJackSmallCardTiles, gJackSmallCardFrame0, "gJackSmallCardHD", -8, -20, 16, 32, 6 },
+    { gJafarSmallCardTiles, gJafarSmallCardFrame0, "gJafarSmallCardHD", -8, -20, 16, 32, 6 },
+    { gKingdomKeySmallCardTiles, gKingdomKeySmallCardFrame0, "gKingdomKeySmallCardHD", -8, -20, 16, 32, 6 },
+    { gLadyLuckSmallCardTiles, gLadyLuckSmallCardFrame0, "gLadyLuckSmallCardHD", -8, -20, 16, 32, 6 },
+    { gLargeBodySmallCardTiles, gLargeBodySmallCardFrame0, "gLargeBodySmallCardHD", -8, -20, 16, 32, 6 },
+    { gLarxeneSmallCardTiles, gLarxeneSmallCardFrame0, "gLarxeneSmallCardHD", -8, -20, 16, 32, 6 },
+    { gLexaeusSmallCardTiles, gLexaeusSmallCardFrame0, "gLexaeusSmallCardHD", -8, -20, 16, 32, 6 },
+    { gLexaeusASmallCardTiles, gLexaeusASmallCardFrame0, "gLexaeusASmallCardHD", -8, -20, 16, 32, 6 },
+    { gLexaeusBSmallCardTiles, gLexaeusBSmallCardFrame0, "gLexaeusBSmallCardHD", -8, -20, 16, 32, 6 },
+    { gLionheartSmallCardTiles, gLionheartSmallCardFrame0, "gLionheartSmallCardHD", -8, -20, 16, 32, 6 },
+    { gMarluxiaSmallCardTiles, gMarluxiaSmallCardFrame0, "gMarluxiaSmallCardHD", -8, -20, 16, 32, 6 },
+    { gMarluxia2SmallCardTiles, gMarluxia2SmallCardFrame0, "gMarluxia2SmallCardHD", -8, -20, 16, 32, 6 },
+    { gMarluxiaASmallCardTiles, gMarluxiaASmallCardFrame0, "gMarluxiaASmallCardHD", -8, -20, 16, 32, 6 },
+    { gMarluxiaBSmallCardTiles, gMarluxiaBSmallCardFrame0, "gMarluxiaBSmallCardHD", -8, -20, 16, 32, 6 },
+    { gMarluxiaCSmallCardTiles, gMarluxiaCSmallCardFrame0, "gMarluxiaCSmallCardHD", -8, -20, 16, 32, 6 },
+    { gMegaEtherSmallCardTiles, gMegaEtherSmallCardFrame0, "gMegaEtherSmallCardHD", -8, -20, 16, 32, 6 },
+    { gMegaPotionSmallCardTiles, gMegaPotionSmallCardFrame0, "gMegaPotionSmallCardHD", -8, -20, 16, 32, 6 },
+    { gMegalixirSmallCardTiles, gMegalixirSmallCardFrame0, "gMegalixirSmallCardHD", -8, -20, 16, 32, 6 },
+    { gMetalChocoboSmallCardTiles, gMetalChocoboSmallCardFrame0, "gMetalChocoboSmallCardHD", -8, -20, 16, 32, 6 },
+    { gMushuSmallCardTiles, gMushuSmallCardFrame0, "gMushuSmallCardHD", -8, -20, 16, 32, 6 },
+    { gNeoshadowSmallCardTiles, gNeoshadowSmallCardFrame0, "gNeoshadowSmallCardHD", -8, -20, 16, 32, 6 },
+    { gOathkeeperSmallCardTiles, gOathkeeperSmallCardFrame0, "gOathkeeperSmallCardHD", -8, -20, 16, 32, 6 },
+    { gOblivionSmallCardTiles, gOblivionSmallCardFrame0, "gOblivionSmallCardHD", -8, -20, 16, 32, 6 },
+    { gOlympiaSmallCardTiles, gOlympiaSmallCardFrame0, "gOlympiaSmallCardHD", -8, -20, 16, 32, 6 },
+    { gOneWingedAngelSmallCardTiles, gOneWingedAngelSmallCardFrame0, "gOneWingedAngelSmallCardHD", -8, -20, 16, 32, 6 },
+    { gOogieBoogieSmallCardTiles, gOogieBoogieSmallCardFrame0, "gOogieBoogieSmallCardHD", -8, -20, 16, 32, 6 },
+    { gPeterPanSmallCardTiles, gPeterPanSmallCardFrame0, "gPeterPanSmallCardHD", -8, -20, 16, 32, 6 },
+    { gPirateSmallCardTiles, gPirateSmallCardFrame0, "gPirateSmallCardHD", -8, -20, 16, 32, 6 },
+    { gPotionSmallCardTiles, gPotionSmallCardFrame0, "gPotionSmallCardHD", -8, -20, 16, 32, 6 },
+    { gPowerwildSmallCardTiles, gPowerwildSmallCardFrame0, "gPowerwildSmallCardHD", -8, -20, 16, 32, 6 },
+    { gPumpkinheadSmallCardTiles, gPumpkinheadSmallCardFrame0, "gPumpkinheadSmallCardHD", -8, -20, 16, 32, 6 },
+    { gRedNocturneSmallCardTiles, gRedNocturneSmallCardFrame0, "gRedNocturneSmallCardHD", -8, -20, 16, 32, 6 },
+    { gRikuSmallCardTiles, gRikuSmallCardFrame0, "gRikuSmallCardHD", -8, -20, 16, 32, 6 },
+    { gScrewdiverSmallCardTiles, gScrewdiverSmallCardFrame0, "gScrewdiverSmallCardHD", -8, -20, 16, 32, 6 },
+    { gSeaNeonSmallCardTiles, gSeaNeonSmallCardFrame0, "gSeaNeonSmallCardHD", -8, -20, 16, 32, 6 },
+    { gSearchGhostSmallCardTiles, gSearchGhostSmallCardFrame0, "gSearchGhostSmallCardHD", -8, -20, 16, 32, 6 },
+    { gShadowSmallCardTiles, gShadowSmallCardFrame0, "gShadowSmallCardHD", -8, -20, 16, 32, 6 },
+    { gSimbaSmallCardTiles, gSimbaSmallCardFrame0, "gSimbaSmallCardHD", -8, -20, 16, 32, 6 },
+    { gSoldierSmallCardTiles, gSoldierSmallCardFrame0, "gSoldierSmallCardHD", -8, -20, 16, 32, 6 },
+    { gSoulEaterSmallCardTiles, gSoulEaterSmallCardFrame0, "gSoulEaterSmallCardHD", -8, -20, 16, 32, 6 },
+    { gSpellbinderSmallCardTiles, gSpellbinderSmallCardFrame0, "gSpellbinderSmallCardHD", -8, -20, 16, 32, 6 },
+    { gStopSmallCardTiles, gStopSmallCardFrame0, "gStopSmallCardHD", -8, -20, 16, 32, 6 },
+    { gTheBeastSmallCardTiles, gTheBeastSmallCardFrame0, "gTheBeastSmallCardHD", -8, -20, 16, 32, 6 },
+    { gTheKingSmallCardTiles, gTheKingSmallCardFrame0, "gTheKingSmallCardHD", -8, -20, 16, 32, 6 },
+    { gThreeWishesSmallCardTiles, gThreeWishesSmallCardFrame0, "gThreeWishesSmallCardHD", -8, -20, 16, 32, 6 },
+    { gThunderSmallCardTiles, gThunderSmallCardFrame0, "gThunderSmallCardHD", -8, -20, 16, 32, 6 },
+    { gTinkerBellSmallCardTiles, gTinkerBellSmallCardFrame0, "gTinkerBellSmallCardHD", -8, -20, 16, 32, 6 },
+    { gTornadoStepSmallCardTiles, gTornadoStepSmallCardFrame0, "gTornadoStepSmallCardHD", -8, -20, 16, 32, 6 },
+    { gUltimaWeaponSmallCardTiles, gUltimaWeaponSmallCardFrame0, "gUltimaWeaponSmallCardHD", -8, -20, 16, 32, 6 },
+    { gUrsulaSmallCardTiles, gUrsulaSmallCardFrame0, "gUrsulaSmallCardHD", -8, -20, 16, 32, 6 },
+    { gVexenSmallCardTiles, gVexenSmallCardFrame0, "gVexenSmallCardHD", -8, -20, 16, 32, 6 },
+    { gVexenASmallCardTiles, gVexenASmallCardFrame0, "gVexenASmallCardHD", -8, -20, 16, 32, 6 },
+    { gVexenBSmallCardTiles, gVexenBSmallCardFrame0, "gVexenBSmallCardHD", -8, -20, 16, 32, 6 },
+    { gWhiteMushroomSmallCardTiles, gWhiteMushroomSmallCardFrame0, "gWhiteMushroomSmallCardHD", -8, -20, 16, 32, 6 },
+    { gWightKnightSmallCardTiles, gWightKnightSmallCardFrame0, "gWightKnightSmallCardHD", -8, -20, 16, 32, 6 },
+    { gWishingStarSmallCardTiles, gWishingStarSmallCardFrame0, "gWishingStarSmallCardHD", -8, -20, 16, 32, 6 },
+    { gWizardSmallCardTiles, gWizardSmallCardFrame0, "gWizardSmallCardHD", -8, -20, 16, 32, 6 },
+    { gWyvernSmallCardTiles, gWyvernSmallCardFrame0, "gWyvernSmallCardHD", -8, -20, 16, 32, 6 },
 };

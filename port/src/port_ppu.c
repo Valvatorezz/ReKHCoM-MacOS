@@ -688,6 +688,7 @@ void PortOamSetHdPart(int oamIndex, const void* tiles, const void* frame, int x,
 }
 
 static void ExportSprites(void);
+int PortHdSpriteKeepsCartridge(int id);
 
 /* Characters the outline font draws: printable Windows-1252 codes. The codes
    below 0x20 are icons (arrows, button shapes) and stay pixel art. */
@@ -2082,7 +2083,7 @@ static void DrawObjs(int gy, uint16_t dispcnt) {
             continue; /* drawn by PortPpuRenderHud */
         if (HdTextGlyph(i) && sOamTag[i].style != 2)
             continue; /* drawn by port_hdtext.c */
-        if (sMainHdPart[i])
+        if (sMainHdPart[i] && !PortHdSpriteKeepsCartridge(sOamHd[i].id))
             continue; /* drawn by port_hdsprites.c over the picture */
         ow = sObjSize[shape][size][0];
         oh = sObjSize[shape][size][1];
@@ -4231,8 +4232,12 @@ static void HdOverLayer(int screen, int w, int h, const uint8_t* occBg, const ui
             for (x = x0; x < x1; x++) {
                 int k = y * w + x;
                 uint16_t obj = occObj[k];
-                /* 0 / 0: a window hides the sprites here; a BG of a higher priority; a sprite before this one */
-                if ((occBg[k] == 0 && obj == 0) || occBg[k] < prio || (obj != 0xFFFFu && obj < prio * 128 + i)) {
+                /* 0 / 0: a window hides the sprites here; a BG of a higher priority; a sprite before this one (not
+                   one that keeps its cartridge pixels under its own HD part: that part is drawn over this one anyway,
+                   and copying its pixels put the small card above's bottom over the cards below, 23/10) */
+                if ((occBg[k] == 0 && obj == 0) || occBg[k] < prio ||
+                    (obj != 0xFFFFu && obj < prio * 128 + i &&
+                     !(sMainHdPart[obj & 127] && PortHdSpriteKeepsCartridge(sOamHd[obj & 127].id)))) {
                     if (!*used) {
                         memset(over, 0, (size_t)w * h * 4);
                         *used = 1;

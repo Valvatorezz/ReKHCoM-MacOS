@@ -135,8 +135,8 @@ Reglas del usuario:
     (port_hdsprites.c Quad); arreglo hecho (esquinas a píxel entero), falta verificar en el título estático.
   - [x] (3de66108c) "Elige un mundo": la imagen grande del mundo se ve mal (máscara del sprite GBA, bordes pixelados); en
     "Naipes mundo" los iconos HD se ven bien: usar el mismo arte/transparencia, o volver al pixel si no se puede.
-  - [ ] "Naipes mapa": la carta grande ya es HD; las chicas de la grilla siguen en pixel: hacerlas HD.
-  - [ ] "Estado": las cartas de aliados (Donald, Goofy) siguen en pixel: hacerlas HD.
+  - [x] (cartas chicas, grupo 6) "Naipes mapa": la carta grande ya es HD; las chicas de la grilla siguen en pixel: hacerlas HD.
+  - [x] (cartas chicas, grupo 6) "Estado": las cartas de aliados (Donald, Goofy) siguen en pixel: hacerlas HD.
   - [x] (3de66108c, mismas filas) Diario (Historia): la imagen del mundo es la misma versión mala que "Elige un mundo" (mismo arreglo).
   - [ ] Opcional: mejorar los fondos de esos menús (p. ej. "Naipes mundo").
   - [ ] Diario > Historia: el submenú no tiene las mejoras de vista ancha de los demás (el usuario marcó el margen
@@ -146,7 +146,8 @@ Reglas del usuario:
   - [ ] Números de las cartas HD quizá muy chicos: comparar con Re:CoM (referencias/capturas del HD).
   - [ ] Cara HD de Sora al recibir daño: el pelo sale cortado.
   - [ ] Editar baraja (Quitar/Añadir naipes): al cambiar con L/R los textos HD aparecen un cuadro antes del fundido;
-    el número de la carta grande parpadea al cambiar de carta; el título "QUITAR NAIPES" en HD como los demás.
+    el número de la carta grande parpadea al cambiar de carta; el título "QUITAR NAIPES" en HD como los demás. (El título "QUITAR/AÑADIR NAIPES" es BG, no sprite: hacerlo con PortHdStillSprite y un cartel armado desde el
+    BG; los demás carteles salen de sprites con hd_menu_titles.py.)
   - [ ] Pequeños cortes de audio al cambiar de menú: la música HD sin fundido de entrada/salida como el juego;
     revisar la lógica general del mod HD y depurar.
   - [ ] Importar HD con calidad a elegir (herramientas libres, "voltron" de repos): Fuente (tal cual), Buena
@@ -167,10 +168,10 @@ Reglas del usuario:
     el HD debe ir igual de fluido que sin HD. Descartado en PC (23/10): combate de Agrabah con cartas/HUD/texto HD, 2451 cuadros normales y 817 con salto
     forzado, ninguna caída aislada de brillo; los savestates del usuario son del evento 000 (slot1) y de editar
     baraja (slot2), no del combate. Falta un savestate del combate o probar con Direct3D 11 real.
-  - [ ] Sonido al moverse en la elección HD/GBA del primer arranque (como en Opciones).
-  - [ ] Ajustes: "Intros HD" (apertura, créditos, finales; encendido por defecto salvo modo GBA Original),
+  - [x] Sonido al moverse en la elección HD/GBA del primer arranque (como en Opciones).
+  - [x] Ajustes: "Intros HD" (apertura, créditos, finales; encendido por defecto salvo modo GBA Original),
     "Escenas HD", "HUD HD" (logo del título + cartas + HUD de combate en un solo interruptor).
-  - [ ] Nueva partida: preguntar "Escenas HD" y "HUD HD" (con una línea que explique qué es el HUD).
+  - [x] Nueva partida: preguntar "Escenas HD" y "HUD HD" (con una línea que explique qué es el HUD).
 - **Vita (reporte dentro de #44):** "bastante lenta"; sin undub aunque estén las ROM US y JP en la carpeta; texto HD
   no seleccionable. Ninguna versión de Vita reportada a velocidad completa.
 - **Switch rendimiento (#35, deko3d):** el host ya presenta por GPU; lo caro es la PPU en CPU y en un solo núcleo
