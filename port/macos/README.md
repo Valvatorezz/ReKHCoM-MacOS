@@ -132,15 +132,16 @@ code casts task/mode callbacks between signatures; runtime checks remain on.
 
 ## Build from source
 
-This private checkout omits the PS4, PS5, Vita and Web platform folders and
-their dedicated tools. The macOS target's reused PS5 guest headers, shims,
-bridge declarations and stb font renderer now live under `port/macos/guest`,
-`shared` and `third_party`. Their original contents and embedded notices are
-retained; PS5-derived source filenames remain for traceability. The fixed-address
-LLVM IR helper formerly imported from the Web builder is `wasm_ir.py` here.
-Shared game, launcher and achievement code remains in place. Other platforms'
-documentation and cross-platform tooling may still describe the upstream tree;
-this checkout's supported local build path is the macOS helper below.
+The PS4, PS5, Vita and Web platform folders and their dedicated tools are
+retained in their upstream locations to simplify future upstream merges. The
+macOS build uses the helper below; retaining other platforms' source files does
+not build those targets or include them in the macOS app.
+
+The macOS target's PS5-derived guest headers, shims, bridge declarations and stb
+font renderer remain under `port/macos/guest`, `shared` and `third_party`.
+Their embedded notices and PS5-derived source filenames are retained for
+traceability. The fixed-address LLVM IR helper is `port/macos/wasm_ir.py`.
+Restoring the other platform sources does not change these macOS dependencies.
 
 Requirements: Apple Command Line Tools (`clang`, `ld`, `codesign`, `make`),
 Python 3, and network access for preparing build dependencies. The helper

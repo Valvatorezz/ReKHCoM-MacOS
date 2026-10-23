@@ -1,0 +1,21 @@
+ReKHCoM for PS5
+
+ReKHCoM: CC0 1.0 (LICENSE-ReKHCoM.md). The game code is the
+matching decompilation of Kingdom Hearts: Chain of Memories by Pheenoh/khcom. No ROM is included:
+copy your own cartridge dump to /data/ReKHCom.
+
+Built into eboot.bin:
+
+PS5 platform layer (Vulkan presentation, audio output, controllers, /data access)
+  GNU GPL v3 or later (LICENSE-GPL-3.0.txt)
+
+RADV, Mesa's Vulkan driver for AMD GPUs (PS5 port by Mihawk-99)
+  MIT License - https://gitlab.freedesktop.org/mesa/mesa
+
+Lapy (privilege helper, lapy.elf)
+  MIT License (Lapy-MIT.txt)
+
+SDL 2 - zlib License - https://www.libsdl.org
+dlmalloc (Doug Lea) - public domain (CC0)
+miniz - MIT License - https://github.com/richgel999/miniz (update download)
+libcurl (curl license), OpenSSL (Apache-2.0), zlib, zstd, libpsl - PacBrew builds, used to check and download updates

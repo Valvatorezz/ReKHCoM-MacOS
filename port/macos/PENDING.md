@@ -49,11 +49,15 @@ usage until 11:50 PM Asia/Manila. Do not schedule or start work automatically.
 
 ## Resume pointers
 
-Local source cleanup: PS4, PS5, Vita and Web platform folders and dedicated tools
-were removed at the user's request. Required PS5-derived macOS dependencies are
-preserved under port/macos; the IR helper is now port/macos/wasm_ir.py. Rebuild
-and runtime validation of this source reorganisation remain pending. Existing
-packaged builds and the player's working app were not replaced.
+Other platform sources: the 176 removed PS4, PS5, Vita and Web files and dedicated
+tools have been restored from the macOS port's upstream base, revision
+42da59f14c0b534fdc66f585670ecb29b552b9f7. Keep these upstream files in place to
+simplify future merges. Required PS5-derived macOS dependencies remain under
+port/macos; the IR helper remains port/macos/wasm_ir.py. Rebuild and runtime
+validation of those reorganised macOS dependencies remain pending; restoring
+the other platforms does not complete that validation. Existing packaged builds
+and the player's working app were not replaced. Newer upstream updates have
+not been merged as part of this restoration.
 
 Repository: /Users/randellevergara/ChatGPT/Games/ReKHCoM
 ROM: /Users/randellevergara/Games/Kingdom Hearts - Chain of Memories (USA).gba
