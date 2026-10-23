@@ -1,4 +1,21 @@
-# Resume after usage refresh
+# Current macOS development status
+
+Active checkout: `/Users/randellevergara/GitHub/ReKHCoM-MacOS`. The older
+`/Users/randellevergara/ChatGPT/Games/ReKHCoM` folder is reference material only.
+The user requested a prebuilt app where users supply their own ROM on 23 October
+2026. The new `--release` build mode stages generated text as runtime ROM
+references; see README.md and VALIDATION.md. Build outputs are separate from
+the default private local build, under `build/macos/release/us/`.
+The additive-blending fix is applied locally. Do not assume changes are
+committed or pushed; inspect Git state. This work does not authorise publishing.
+
+Controls localisation: the user reported Spanish labels on the English controls
+page on 23 October 2026. Nine English-column strings in `port/src/port_ui.c`
+were Spanish. These are corrected in source for both keyboard and controller
+pages; targeted US/macOS compilation passed. The existing release ZIP has not
+been rebuilt with this label correction. Rebuild and verify the controls page.
+
+## Earlier pause (historical)
 
 Stopped at the user's explicit request on 22 October 2026 to conserve remaining
 usage until 11:50 PM Asia/Manila. Do not schedule or start work automatically.
@@ -20,8 +37,11 @@ usage until 11:50 PM Asia/Manila. Do not schedule or start work automatically.
    is implemented, but the complete UI paths need validation.
 5. Validate native crash-signal delivery and Apple's crash report preservation
    using an isolated diagnostic fixture. Installation/record-writing pass.
-6. Resolve or characterize existing rough glyphs/magenta deck artifact, test a
-   physical controller and audible audio, and test display changes/Retina scaling.
+6. Characterise the rough glyphs and automated deck-fixture discrepancy. On
+   23 October 2026 the user reported that the deck CP numbers display correctly
+   during normal gameplay; the fixture observation is not a confirmed gameplay
+   bug. Test a physical controller and audible audio, and test display
+   changes/Retina scaling.
 7. Test a real save point/continue and longer play. Test a second Apple Silicon
    Mac (minimum target macOS 15); Intel is not built. Refresh validation docs.
 8. Review staged launcher replacements, remove stale Windows tooltips and ensure
@@ -59,7 +79,7 @@ the other platforms does not complete that validation. Existing packaged builds
 and the player's working app were not replaced. Newer upstream updates have
 not been merged as part of this restoration.
 
-Repository: /Users/randellevergara/ChatGPT/Games/ReKHCoM
+Repository: /Users/randellevergara/GitHub/ReKHCoM-MacOS
 ROM: /Users/randellevergara/Games/Kingdom Hearts - Chain of Memories (USA).gba
 Relocation: generated build files and the Python virtual environment may retain
 old absolute paths. Inspect and regenerate affected files/environment as needed

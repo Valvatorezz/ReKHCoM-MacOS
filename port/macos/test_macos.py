@@ -19,8 +19,9 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--rom',type=Path,required=True)
     p.add_argument('--region',choices=['eu','us','jp'],default='us')
+    p.add_argument('--build-dir',type=Path,help='Existing build output directory, e.g. build/macos/release/us')
     a=p.parse_args()
-    build=ROOT/'build/macos'/a.region
+    build=a.build_dir.resolve() if a.build_dir else ROOT/'build/macos'/a.region
     meta=json.loads((build/'native-build.json').read_text())
     test_root=ROOT/'build/macos/tests';test_root.mkdir(parents=True,exist_ok=True)
     out=Path(tempfile.mkdtemp(prefix='run-',dir=test_root))

@@ -28,7 +28,7 @@ X(tex_update) /* void (int id, const void* rgba) */
 X(tex_free)   /* void (int id) */
 X(gfx_draw)   /* void (int id, const void* vertices, int count): HostVertex triangles, id -1 none */
 X(gfx_clip)   /* void (int x, int y, int w, int h): w <= 0 off */
-X(gfx_blend)  /* void (int on) */
+X(gfx_blend)  /* void (int mode): SDL_BLENDMODE_NONE=0, BLEND=1, ADD=2 */
 X(audio_open) /* int (int rate) */
 X(audio_push) /* void (const int16_t* frames, uint32_t count) */
 X(audio_queued) /* uint32_t (void): frames waiting */

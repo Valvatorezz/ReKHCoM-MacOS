@@ -175,9 +175,40 @@ app in the temporary directory. Signing there avoids iCloud attaching Finder
 metadata that invalidates signatures. The ZIP stores only normal files and
 preserves executable modes, without Finder/resource-fork attributes. The app packages upstream fonts, launcher art/icon and badge atlas with notices.
 No game ROM, save, or standalone extracted cartridge-asset directory is packaged.
-The game binary contains ROM-derived compiled data; keep this personal build private.
+The default local game binary contains ROM-derived compiled data; keep that personal build private.
 Do not distribute local ROM-derived generation outputs or assume the source
 code license grants rights to original game content.
+
+### Prebuilt US app with runtime cartridge text
+
+Add `--release` to the build command above to build into
+`build/macos/release/us/`. This currently supports the US cartridge only. The
+builder still needs your ROM locally, but users of the finished app supply their
+own matching ROM through the launcher; they do not need Python or a compiler.
+
+This mode stages text fragments as declarations that point into the runtime
+cartridge memory, instead of compiling the generated text into the executable.
+The Riku deck table, which contains names inline, is also read from the ROM;
+the builder verifies its complete contents against the source table and checks
+the guest's structure layout. Shared game sources are not edited for this step.
+
+`release-audit.json` records the scan of the executable for generated text
+samples (all samples of at least 32 bytes, plus inline deck names) and checks
+that no ROM, save or state file is in the app. This is a technical payload check,
+not a rights clearance for the game's code or retained launcher artwork/fonts.
+Their existing notices still apply. Only the app is packaged; generated build
+inputs and the locally supplied ROM remain outside the ZIP.
+
+The archive is `build/macos/release/us/ReKHCoM-macos-arm64-us.zip`, with
+`SHA256SUMS` alongside it. It remains an experimental, ad-hoc-signed build,
+without Developer ID signing or notarisation. This option does not upload,
+publish, commit or push anything. Run its isolated checks with:
+
+```sh
+.venv/bin/python port/macos/test_macos.py \
+  --rom '/absolute/path/to/your-dump.gba' --region us \
+  --build-dir build/macos/release/us
+```
 
 ## Verification and limitations
 

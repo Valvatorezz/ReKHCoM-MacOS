@@ -145,6 +145,7 @@ def main():
     p.add_argument('--wasm-opt',type=Path,required=True)
     p.add_argument('--sdl',type=Path,default=ROOT/'build/macos/deps/sdl')
     p.add_argument('--jobs',type=int,default=4)
+    p.add_argument('--release',action='store_true',help='US build with generated text read from the user-supplied ROM at runtime')
     args=p.parse_args()
     os.chdir(ROOT)
     rom=args.rom.expanduser().resolve()
@@ -157,7 +158,7 @@ def main():
     if local.exists() and hashlib.sha1(local.read_bytes()).hexdigest()!=digest:
         sys.exit(f'Refusing to overwrite a different local dump: {local}')
     if not local.exists(): shutil.copyfile(rom,local)
-    out=ROOT/'build/macos'/region
+    out=ROOT/'build/macos'/('release/'+region if args.release else region)
     out.mkdir(parents=True,exist_ok=True)
     run([sys.executable,ROOT/'port/tools/gen_pc_assets.py','--version',region])
     sdk=args.wasi_sdk.resolve(); w2=args.w2c2.resolve(); opt=args.wasm_opt.resolve(); sdl=args.sdl.resolve()
@@ -173,6 +174,11 @@ def main():
         for name,value in re.findall(r'\.set\s+_(\w+),\s*(0x[0-9a-fA-F]+|\d+)',source.read_text()):
             symbols[name]=int(value,0)
     if len(symbols)<1000: raise RuntimeError('Missing fixed-address ROM symbols')
+    release_source = None
+    release_samples = {}
+    if args.release:
+        from release_assets import prepare as prepare_release
+        gen, release_source, release_samples = prepare_release(ROOT,out,region,rom.read_bytes(),symbols)
     includes=[ROOT/'include']+sorted(d for d in (ROOT/'include').iterdir() if d.is_dir() and d.name!='gba')+[gen,ROOT/'port/include']
     flags=['--target=wasm32','-ffreestanding','-nostdinc','-isystem',str(sdk/'lib/clang/23/include'),
            '-I'+str(guest_support/'guest/include'),'-I'+str(guest_support/'shared'),'-I'+str(HERE),
@@ -199,10 +205,13 @@ def main():
         source,is_game=item
         key=source.stem+'-'+hashlib.sha256(str(source).encode()).hexdigest()[:8]
         obj=out/(key+'.o'); fingerprint=hashlib.sha256(source.read_bytes()+stamp.encode()).hexdigest()
+        if release_source is not None and source.name == 'card_battle_riku.c':
+            fingerprint=hashlib.sha256(source.read_bytes()+release_source.read_bytes()+stamp.encode()).hexdigest()
         marker=out/(key+'.sha256')
         if obj.exists() and marker.exists() and marker.read_text()==fingerprint:return obj
         original=source
-        if source.name in ('libc.c','sdl_shim.c','port_main.c','port_config.c','port_bios.c','rom_relocs.c'):source=staged(source,out)
+        if release_source is not None and source.name == 'card_battle_riku.c':source=release_source
+        elif source.name in ('libc.c','sdl_shim.c','port_main.c','port_config.c','port_bios.c','rom_relocs.c'):source=staged(source,out)
         extra=['-std=gnu89' if is_game else '-std=gnu11']
         ir=out/(key+'.ll')
         command=[cc,*flags,*extra,'-S','-emit-llvm',source,'-o',ir]
@@ -288,6 +297,14 @@ def main():
     for file in sdl_license:
         if file.is_file():shutil.copyfile(file,notices/('SDL3-'+file.name))
     for binary in [exe,launcher_exe,fw/library.name]:verify_portable_binary(binary)
+    release_audit = None
+    if args.release:
+        from release_assets import audit
+        release_audit = audit(exe,release_samples)
+        release_audit['rom_files_in_bundle'] = [str(f.relative_to(app)) for f in app.rglob('*') if f.is_file() and f.suffix.lower() in ('.gba','.sav','.state')]
+        if release_audit['rom_files_in_bundle']:
+            raise RuntimeError('Private game data found in release bundle')
+        (out/'release-audit.json').write_text(json.dumps(release_audit,indent=2)+'\n')
     for file in [fw/library.name,exe,app]:run(['codesign','--force','--sign','-',file])
     run(['codesign','--verify','--deep','--strict',app])
     archive=out/f'ReKHCoM-macos-arm64-{region}.zip'
@@ -300,6 +317,9 @@ def main():
     print('Local build:',app,flush=True)
     print('Install archive:',archive,flush=True)
     print('Upstream launcher artwork, badges and optional fonts restored with notices. No ROM is bundled.')
-    print('Generated game text may be present in the executable. This is a private local build, not a release package.')
+    if args.release:
+        print('Release build: generated text is read from the user-supplied ROM; payload audit passed.')
+    else:
+        print('Generated game text may be present in the executable. This is a private local build, not a release package.')
 
 if __name__=='__main__':main()

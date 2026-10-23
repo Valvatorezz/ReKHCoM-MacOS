@@ -111,6 +111,7 @@ typedef enum SDL_FlipMode {
 typedef Uint32 SDL_BlendMode;
 #define SDL_BLENDMODE_NONE 0u
 #define SDL_BLENDMODE_BLEND 1u
+#define SDL_BLENDMODE_ADD 2u
 typedef enum SDL_TextureAccess {
     SDL_TEXTUREACCESS_STATIC = 0,
     SDL_TEXTUREACCESS_STREAMING = 1

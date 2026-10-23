@@ -109,7 +109,7 @@ static SDL_Window* sWindow;
 static SDL_Renderer* sRenderer;
 static SDL_Texture* sTex[4096];
 static int sTexW[4096], sTexH[4096], sTexSmooth[4096];
-static int sBlend = 1;
+static SDL_BlendMode sBlend = SDL_BLENDMODE_BLEND;
 
 static void H_gfx_size(int* w, int* h) { SDL_GetCurrentRenderOutputSize(sRenderer, w, h); }
 static void H_gfx_begin(uint32_t clear) {
@@ -142,7 +142,7 @@ static void H_gfx_clip(int x, int y, int w, int h) {
     SDL_Rect r = { x, y, w, h };
     SDL_SetRenderClipRect(sRenderer, w > 0 ? &r : NULL);
 }
-static void H_gfx_blend(int on) { sBlend = on; }
+static void H_gfx_blend(int mode) { sBlend = (SDL_BlendMode)mode; }
 
 /* HostVertex triangles; the shim adds 2, 4 or 6 to u for pixel art and the MMPX filters (port/macos/guest/src/sdl_shim.c):
    those are drawn crisp (nearest), as the software hosts read them */
@@ -161,7 +161,7 @@ static void H_gfx_draw(int id, const void* verts, int count) {
         shift = floorf((v[0].u + 0.25f) / 2.0f) * 2.0f;
         crisp = shift > 0;
         SDL_SetTextureScaleMode(t, crisp || !sTexSmooth[id] ? SDL_SCALEMODE_NEAREST : SDL_SCALEMODE_LINEAR);
-        SDL_SetTextureBlendMode(t, sBlend ? SDL_BLENDMODE_BLEND : SDL_BLENDMODE_NONE);
+        SDL_SetTextureBlendMode(t, sBlend);
     }
     for (int i = 0; i < count; i++) {
         out[i].position.x = v[i].x;
@@ -173,7 +173,7 @@ static void H_gfx_draw(int id, const void* verts, int count) {
         out[i].color.b = (v[i].argb & 255) / 255.0f;
         out[i].color.a = (v[i].argb >> 24) / 255.0f;
     }
-    SDL_SetRenderDrawBlendMode(sRenderer, sBlend ? SDL_BLENDMODE_BLEND : SDL_BLENDMODE_NONE);
+    SDL_SetRenderDrawBlendMode(sRenderer, sBlend);
     SDL_RenderGeometry(sRenderer, t, out, count, NULL, 0);
 }
 
