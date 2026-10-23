@@ -5,6 +5,10 @@ reminders or permission to publish anything. The app is for private use.
 
 ## Current priorities
 
+- 23 October: experimental quick save/load on `quicksaveload`, explicitly
+  requested by the user. It uses an opt-in build and isolated test data; see
+  SAVE_STATES.md. Full HD support was reconsidered and deferred again.
+
 - Open the upstream launcher first, with a working Play action, settings,
   controls, ROM verification/installation and save tools.
 - Restore the upstream launcher cover/logo/icon and achievement badge artwork,
@@ -19,9 +23,9 @@ reminders or permission to publish anything. The app is for private use.
 
 1. Replacement HD music: add a native decoder/mixer to the existing bridge,
    then connect optional user-imported tracks. No priority for this update.
-2. Portable quick save/load states: snapshot linear memory, function-table /
-   runtime state and platform state at a known safe frame boundary; validate
-   version/build compatibility and resynchronize audio/input on restore.
+2. Wider save-state portability and validation: the opt-in same-build macOS
+   prototype now snapshots linear memory and host texture data at an explicit
+   boundary. Broader compatibility and real gameplay validation remain pending.
 3. Boss rematches: restore after portable states are reliable.
 4. RetroAchievements: preserve shared achievement code/data. Account integration,
    official runtime evaluation and submission need their own validation; the

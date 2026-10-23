@@ -63,6 +63,16 @@ def replace_once(text, old, new):
 
 def staged(source, out):
     text = source.read_text()
+    if source == ROOT/'src/main.c':
+        start=text.index('void AgbMain() {')
+        end=text.index('\nvoid VBlankIntr()',start)
+        original=text[start:end]
+        initial,loop=original.split('    for (;;) {',1)
+        replacement=('void macos_resume_game(void);\nvoid MacStateCheckpoint(void);\n'+initial+
+            '    macos_resume_game();\n}\n\n'
+            '__attribute__((noinline,optnone)) void macos_resume_game(void) {\n'
+            '    for (;;) {\n        MacStateCheckpoint();'+loop)
+        text=text[:start]+replacement+text[end:]
     if source.name == 'rom_relocs.c':
         text = re.sub(r'extern char (SrollBlit\w+)\[\];', r'extern void \1(void);', text)
         text = re.sub(r'(\{0x[\da-fA-F]+,\s*)(SrollBlit\w+)(\s*\})', r'\1(const void*)\2\3', text)
@@ -75,7 +85,41 @@ def staged(source, out):
         text = replace_once(text, '    setjmp(sResetJmp);', '    /* host reinstantiates the core on soft reset */')
         text = replace_once(text, '    longjmp(sResetJmp, 1);',
                             '    PortSramSyncIfDirty();\n    PortConfigSave();\n    exit(75);')
+        text+='''
+#ifdef MACOS_SAVE_STATES
+void MacStateTimingReset(void) {
+    extern volatile uint32_t gFrameCounter;
+    sNextFrame=0; sFpsTime=SDL_GetPerformanceCounter(); sLogicLast=gFrameCounter;
+}
+#endif
+'''
+    if source.name == 'port_memory_ps5.c':
+        text+='''
+#ifdef MACOS_SAVE_STATES
+void MacStateKeepSram(void) {
+    h_state_keep((const void*)(uintptr_t)GBA_SRAM,GBA_SRAM_SIZE);
+    h_state_keep(sSramShadow,sizeof(sSramShadow));
+    h_state_keep(&sSramLoaded,sizeof(sSramLoaded));
+    h_state_keep(&sSramBank,sizeof(sSramBank));
+    h_state_keep(&gPortConfig,sizeof(gPortConfig));
+}
+#endif
+'''
+    if source.name == 'port_ui.c':
+        text=replace_once(text,'static int ItemVisible(int item) {\n    switch (item) {',
+            'static int ItemVisible(int item) {\n    switch (item) {\n#ifdef PORT_MACOS\n        case ITEM_REMATCH_MENU: return 0;\n#endif')
     if source.name == 'sdl_shim.c':
+        text+='''
+#ifdef MACOS_SAVE_STATES
+void MacStateInputReset(void) {
+    sQHead=sQTail=0;
+    for(int i=0;i<HOSTPAD_MAX;i++) {
+        memset(&sPads[i].prev,0,sizeof(sPads[i].prev));
+        memset(&sPads[i].now,0,sizeof(sPads[i].now));
+    }
+}
+#endif
+'''
         text = '#include "keyboard.h"\n' + text
         text = text.replace('return "vulkan";', 'return "macOS SDL3 host";')
         text = replace_once(text, '(void)w; (void)f; return true; }', '(void)w; return h_fullscreen(f)!=0; }')
@@ -118,7 +162,7 @@ def adapters(out):
                        ('tex_update',1):'(a0<4096 ? (U64)sTexW[a0]*sTexH[a0]*4 : 0)',
                        ('gfx_draw',1):'(U64)a2*sizeof(HostVertex)',('audio_push',0):'(U64)a1*4',
                        ('pad_poll',0):'(U64)a1*sizeof(HostPad)',('touch_poll',0):'(U64)a1*sizeof(HostTouch)',
-                       ('keyboard',0):'a1',('key_event',0):'20'}
+                       ('keyboard',0):'a1',('key_event',0):'20',('state_keep',0):'a1'}
                 if t=='const char*': calls.append(f'GuestString(instance,a{j})')
                 else: calls.append(f'({t})GuestSpan(instance,a{j},{spans.get((name,j), "1")})')
             else:
@@ -146,6 +190,7 @@ def main():
     p.add_argument('--sdl',type=Path,default=ROOT/'build/macos/deps/sdl')
     p.add_argument('--jobs',type=int,default=4)
     p.add_argument('--release',action='store_true',help='US build with generated text read from the user-supplied ROM at runtime')
+    p.add_argument('--experimental-states',action='store_true',help='Opt-in save-state prototype; separate build/macos/states output')
     args=p.parse_args()
     os.chdir(ROOT)
     rom=args.rom.expanduser().resolve()
@@ -158,7 +203,8 @@ def main():
     if local.exists() and hashlib.sha1(local.read_bytes()).hexdigest()!=digest:
         sys.exit(f'Refusing to overwrite a different local dump: {local}')
     if not local.exists(): shutil.copyfile(rom,local)
-    out=ROOT/'build/macos'/('release/'+region if args.release else region)
+    variant=('states-release' if args.release else 'states') if args.experimental_states else ('release' if args.release else '')
+    out=ROOT/'build/macos'/variant/region
     out.mkdir(parents=True,exist_ok=True)
     run([sys.executable,ROOT/'port/tools/gen_pc_assets.py','--version',region])
     sdk=args.wasi_sdk.resolve(); w2=args.w2c2.resolve(); opt=args.wasm_opt.resolve(); sdl=args.sdl.resolve()
@@ -187,6 +233,7 @@ def main():
            '-fno-stack-protector','-fno-builtin','-DPLATFORM_PC','-DPORT_MACOS','-DVERSION_'+region.upper(),'-w','-include',str(HERE/'guest_sdl.h'),
            '-mno-sign-ext','-mno-bulk-memory','-mno-nontrapping-fptoint']
     resource=subprocess.check_output([str(cc),'-print-resource-dir'],text=True).strip()
+    if args.experimental_states: flags+=['-DMACOS_SAVE_STATES']
     flags[flags.index('-isystem')+1]=resource+'/include'
     for inc in includes: flags+=['-iquote',str(inc)]
     game=sorted((ROOT/'src').rglob('*.c'))
@@ -194,6 +241,7 @@ def main():
     port=[q for q in sorted((ROOT/'port/src').glob('*.c')) if q.stem not in skip]
     port += [guest_support/'guest/src'/f for f in ['libc.c','sdl_shim.c','hdtext_ps5.c','port_memory_ps5.c']]
     port += [glue/'rom_relocs.c',HERE/'guest.c']
+    if args.experimental_states:port+=[HERE/'state_guest.c']
     config=repr(flags)+json.dumps(symbols,sort_keys=True)+inspect.getsource(staged)+inspect.getsource(rewrite_ir)
     # Header changes invalidate every object; include generated asset fragments too.
     h=hashlib.sha256(config.encode())
@@ -211,7 +259,7 @@ def main():
         if obj.exists() and marker.exists() and marker.read_text()==fingerprint:return obj
         original=source
         if release_source is not None and source.name == 'card_battle_riku.c':source=release_source
-        elif source.name in ('libc.c','sdl_shim.c','port_main.c','port_config.c','port_bios.c','rom_relocs.c'):source=staged(source,out)
+        elif source.name in ('libc.c','sdl_shim.c','port_main.c','port_config.c','port_bios.c','rom_relocs.c','port_ui.c') or (args.experimental_states and (source==ROOT/'src/main.c' or source.name=='port_memory_ps5.c')):source=staged(source,out)
         extra=['-std=gnu89' if is_game else '-std=gnu11']
         ir=out/(key+'.ll')
         command=[cc,*flags,*extra,'-S','-emit-llvm',source,'-o',ir]
@@ -226,7 +274,8 @@ def main():
         for j,obj in enumerate(pool.map(compile_one,[(q,True) for q in game]+[(q,False) for q in port]),1):
             objects.append(obj)
             if j%40==0:print('Compiled',j,flush=True)
-    run([sdk/'bin/wasm-ld','--no-entry','--export=guest_main','--export=macos_sram_test','--export=macos_input_test','--export-memory','--allow-undefined',
+    state_exports=['--export=macos_resume_game','--export=macos_state_loaded'] if args.experimental_states else []
+    run([sdk/'bin/wasm-ld','--no-entry','--export=guest_main','--export=macos_sram_test','--export=macos_input_test',*state_exports,'--export-memory','--allow-undefined',
          '--global-base=234946560','--initial-memory=402653184','--max-memory=402653184','-z','stack-size=8388608',
          *objects,'-o',out/'raw.wasm'])
     run([opt,out/'raw.wasm','--fpcast-emu','--pass-arg=fpcast-emu-max-params@16','--disable-reference-types','--disable-multivalue','-o',out/'core.wasm'])
@@ -235,6 +284,13 @@ def main():
     native_flags=['-arch','arm64','-mmacosx-version-min=15.0','-O2','-DW2C2_RUNTIME_CHECKS=1',
                   '-I'+str(HERE),'-I'+str(w2/'w2c2'),'-I'+str(guest_support/'shared'),'-I'+str(out),'-I'+str(sdl/'include'),
                   '-Wno-deprecated-declarations','-DMACOS_REGION="'+region+'"','-DMACOS_ROM_SHA1="'+digest+'"']
+    if args.experimental_states:
+        layout=(out/'core.h').read_text().split('typedef struct m4_coreInstance {',1)[1].split('} m4_coreInstance;',1)[0]
+        if not re.fullmatch(r'\s*wasmModuleInstance common;\s*wasmMemory\* m0;\s*wasmTable t0;\s*U32 g0;\s*#if W2C2_RUNTIME_CHECKS\s*U32 dataSegmentSizes\[\d+\];\s*#endif\s*',layout):
+            raise RuntimeError('Save-state runtime layout changed; explicit migration required')
+        identity=hashlib.sha256((out/'core.wasm').read_bytes()+(HERE/'state_host.h').read_bytes()+(HERE/'host.c').read_bytes()).hexdigest()
+        (out/'state_build.h').write_text('#define MACOS_STATE_BUILD_ID "'+identity+'"\n')
+        native_flags+=['-DMACOS_SAVE_STATES']
     def native(source):
         obj=source.with_suffix('.arm64.o')
         run(['clang',*native_flags,'-c',source,'-o',obj],stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
@@ -251,7 +307,7 @@ def main():
     exe=mac/('khcom_'+region)
     launcher_exe=mac/'ReKHCoM'
     run(['clang','-arch','arm64','-mmacosx-version-min=15.0',*native_objects,'-L'+str(sdl/'lib'),'-lSDL3',
-         '-Wl,-rpath,@executable_path/../Frameworks','-o',exe])
+         '-Wl,-rpath,@executable_path/../Frameworks','-lz','-o',exe])
     from build_launcher import build as build_launcher
     build_launcher(out,launcher_exe,sdl,args.jobs,run)
     library=sdl/'lib/libSDL3.0.dylib';shutil.copyfile(library,fw/library.name)
@@ -301,7 +357,7 @@ def main():
     if args.release:
         from release_assets import audit
         release_audit = audit(exe,release_samples)
-        release_audit['rom_files_in_bundle'] = [str(f.relative_to(app)) for f in app.rglob('*') if f.is_file() and f.suffix.lower() in ('.gba','.sav','.state')]
+        release_audit['rom_files_in_bundle'] = [str(f.relative_to(app)) for f in app.rglob('*') if f.is_file() and f.suffix.lower() in ('.gba','.sav','.state','.macstate')]
         if release_audit['rom_files_in_bundle']:
             raise RuntimeError('Private game data found in release bundle')
         (out/'release-audit.json').write_text(json.dumps(release_audit,indent=2)+'\n')

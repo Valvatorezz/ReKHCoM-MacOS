@@ -53,3 +53,6 @@ X(touch_poll) /* int (HostTouch* fingers, int max): fingers on the screen now (A
 X(app_state)  /* int (void): 1 while the app is in the background (Android 64-bit), 0 elsewhere */
 X(hd_music)   /* int (int op, const char* path, int gain): HD music (shared/hd_music_host.h): 0 open path, 1 play at gain/1000, 2 pause, 3 close */
 X(hd_movie)   /* int (const char* movie, const char* subs1, const char* subs2, const char* font): plays an HD movie to the end (Android 64-bit, port/portable/hdmovie_android.c); 0 elsewhere */
+X(state_request) /* experimental macOS snapshots */
+X(state_keep)
+X(state_checkpoint)

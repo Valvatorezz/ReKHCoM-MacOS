@@ -48,6 +48,7 @@ static int H_getenv(const char* name, char* out, int cap) {
 
 /* Files remain outside the read-only app bundle. */
 static SDL_IOStream* sFiles[64];
+static char sFileNames[64][4096];
 static SDL_IOStream* OpenPath(const char* path, const char* mode) {
     return SDL_IOFromFile(path, mode);
 }
@@ -56,6 +57,7 @@ static int H_fopen(const char* path, int mode) {
     for (int i = 0; i < 64; ++i)
         if (!sFiles[i]) {
             sFiles[i] = OpenPath(path, modes[mode & 3]);
+            if(sFiles[i])SDL_strlcpy(sFileNames[i],path,sizeof(sFileNames[i]));
             return sFiles[i] ? i : -1;
         }
     return -1;
@@ -109,6 +111,7 @@ static SDL_Window* sWindow;
 static SDL_Renderer* sRenderer;
 static SDL_Texture* sTex[4096];
 static int sTexW[4096], sTexH[4096], sTexSmooth[4096];
+static unsigned char* sTexPixels[4096];
 static SDL_BlendMode sBlend = SDL_BLENDMODE_BLEND;
 
 static void H_gfx_size(int* w, int* h) { SDL_GetCurrentRenderOutputSize(sRenderer, w, h); }
@@ -124,6 +127,11 @@ static int H_tex_create(const void* rgba, int w, int h, int smooth) {
             sTex[i] = SDL_CreateTexture(sRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STATIC, w, h);
             if (!sTex[i])
                 return -1;
+#ifdef MACOS_SAVE_STATES
+            sTexPixels[i]=malloc((size_t)w*h*4);
+            if(!sTexPixels[i]){SDL_DestroyTexture(sTex[i]);sTex[i]=NULL;return -1;}
+            memcpy(sTexPixels[i],rgba,(size_t)w*h*4);
+#endif
             SDL_UpdateTexture(sTex[i], NULL, rgba, w * 4);
             SDL_SetTextureBlendMode(sTex[i], SDL_BLENDMODE_BLEND);
             sTexW[i] = w;
@@ -133,10 +141,16 @@ static int H_tex_create(const void* rgba, int w, int h, int smooth) {
         }
     return -1;
 }
-static void H_tex_update(int id, const void* rgba) { SDL_UpdateTexture(sTex[id], NULL, rgba, sTexW[id] * 4); }
+static void H_tex_update(int id, const void* rgba) {
+    SDL_UpdateTexture(sTex[id], NULL, rgba, sTexW[id] * 4);
+#ifdef MACOS_SAVE_STATES
+    memcpy(sTexPixels[id],rgba,(size_t)sTexW[id]*sTexH[id]*4);
+#endif
+}
 static void H_tex_free(int id) {
     SDL_DestroyTexture(sTex[id]);
     sTex[id] = NULL;
+    free(sTexPixels[id]);sTexPixels[id]=NULL;
 }
 static void H_gfx_clip(int x, int y, int w, int h) {
     SDL_Rect r = { x, y, w, h };
@@ -294,6 +308,19 @@ static int H_hd_movie(const char* a,const char* b,const char* c,const char* d) {
 static unsigned sFrames;
 static void H_gfx_end(void) {
     sFrames++;
+#ifdef MACOS_SAVE_STATES
+    /* Regression harness: exercise real F5/F9 events through the bridge. */
+    const char* keys=SDL_getenv("KHCOM_STATE_KEYS");
+    while(keys && *keys) {
+        unsigned frame;int key;
+        if(sscanf(keys,"%u:F%d",&frame,&key)==2 && frame==sFrames && (key==5 || key==9)) {
+            SDL_Event event={0};event.type=SDL_EVENT_KEY_DOWN;event.key.down=true;
+            event.key.key=key==5?SDLK_F5:SDLK_F9;event.key.scancode=key==5?SDL_SCANCODE_F5:SDL_SCANCODE_F9;
+            SDL_PushEvent(&event);event.type=SDL_EVENT_KEY_UP;event.key.down=false;SDL_PushEvent(&event);
+        }
+        keys=strchr(keys,',');if(keys)keys++;
+    }
+#endif
     const char* shot=SDL_getenv("KHCOM_HOST_SHOT");
     const char* frame=SDL_getenv("KHCOM_HOST_SHOT_FRAME");
     if(shot && sFrames==(unsigned)(frame?atoi(frame):120)) {
@@ -304,6 +331,9 @@ static void H_gfx_end(void) {
 }
 /* All scalar types are converted explicitly; pointers become checked offsets. */
 static m4_coreInstance sCore;
+static int H_state_request(int,const char*);
+static void H_state_keep(const void*,uint32_t);
+static int H_state_checkpoint(void);
 void trap(Trap code) { Log("game trap at display frame %u: %s",sFrames,trapDescription(code)); sExitCode=2; longjmp(sExit,1); }
 static void* GuestSpan(wasmModuleInstance* instance,U32 offset,U64 size) {
     wasmMemory* m=m4_coreExport6_memory((m4_coreInstance*)instance);
@@ -318,6 +348,7 @@ static const char* GuestString(wasmModuleInstance* instance,U32 offset) {
 }
 F32 i3_env6_roundf(wasmModuleInstance* instance,F32 x) { (void)instance;return roundf(x); }
 #include "adapters.inc"
+#include "state_host.h"
 
 static const char* sSelected;
 static int sDialogDone;
@@ -372,7 +403,14 @@ int main(int argc,char** argv) {
     do {
         sExitCode=0; sFrames=0;
         m4_coreInstantiate(&sCore,NULL);
-        if(!setjmp(sExit)) sExitCode=(int)m4_coreExport10_guestX5Fmain(&sCore);
+#ifdef MACOS_SAVE_STATES
+        StateInit();
+#endif
+        int jump=setjmp(sExit);
+        if(!jump) sExitCode=(int)m4_coreExport10_guestX5Fmain(&sCore);
+#ifdef MACOS_SAVE_STATES
+        else if(jump==2){StateApply();m4_coreExport17_macosX5FresumeX5Fgame(&sCore);}
+#endif
         CleanupGuest(); m4_coreFreeInstance(&sCore);
     } while(sExitCode==75 && !sQuit);
     if(sPad) SDL_CloseGamepad(sPad);

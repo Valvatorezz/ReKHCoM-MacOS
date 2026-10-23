@@ -27,7 +27,7 @@ def main():
     out=Path(tempfile.mkdtemp(prefix='run-',dir=test_root))
     exe=out/'integration-test'
     command=['clang',*meta['flags'],'-I'+str(HERE),str(HERE/'integration_test.c'),*meta['objects'],
-             '-L'+meta['sdl']+'/lib','-lSDL3','-Wl,-rpath,'+meta['sdl']+'/lib','-o',str(exe)]
+             '-L'+meta['sdl']+'/lib','-lSDL3','-lz','-Wl,-rpath,'+meta['sdl']+'/lib','-o',str(exe)]
     subprocess.run(command,check=True)
     env={k:v for k,v in os.environ.items() if not k.startswith(('SDL_','KHCOM_'))}
     env.update(SDL_VIDEODRIVER='dummy',SDL_AUDIODRIVER='dummy')

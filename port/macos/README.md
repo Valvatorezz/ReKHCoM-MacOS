@@ -212,6 +212,10 @@ publish, commit or push anything. Run its isolated checks with:
 
 ## Verification and limitations
 
+An opt-in quick save/load prototype is documented in
+[SAVE_STATES.md](SAVE_STATES.md). It uses separate build output directories;
+the standard build still disables save states and boss rematches.
+
 See [VALIDATION.md](VALIDATION.md) for the observed results and rendering issues.
 
 Run the checks in fresh isolated directories; never against a player's saves:
@@ -231,7 +235,8 @@ as exit codes: an unrecognized/incorrect harness request can merely run startup.
 
 - Experimental, not a verified complete playthrough. Movies, endings, prolonged
   play, and all bosses/regions need further verification.
-- Save states (F5/F9) and boss rematches that require them are unavailable.
+- Standard builds disable save states (F5/F9). An experimental opt-in build is
+  described in SAVE_STATES.md; boss rematches remain unavailable.
 - The host has one active gamepad; physical USB/Bluetooth controller models
   still need testing. Virtual controller checks do not prove hardware behavior.
 - Dummy audio tests verify the path, not audible quality/latency on real output.

@@ -1,5 +1,45 @@
 # Validation
 
+## Experimental quick save/load — 23 October 2026
+
+Branch: `quicksaveload`, based on `13e543eef`. Later upstream/main changes
+are not included. Build flags: `--experimental-states --release`, US ROM.
+Output: `build/macos/states-release/us/`. The normal build and player's
+installed app were not replaced. See SAVE_STATES.md for limits and commands.
+
+- Full experimental build and packaging succeeded. Generated-text payload
+  audit checked 5,211 samples, with no embedded matches or packaged ROM/save/
+  state files. Extracted ZIP signature, CRC, SHA-256 and executable identity
+  checks passed (`states-release/us/package-check.json`).
+- Title, battle, event/dialogue and deck: real F5/F9 events traverse the native
+  bridge. At equivalent later frames, screenshots match baseline files byte
+  for byte, both in the same process and after restarting the application.
+  All eight comparisons retained identical synthetic cartridge-save files.
+- Two successive loads of one state also produce the baseline screenshot.
+  Missing, truncated, wrong-build and corrupted-payload files are rejected
+  without changing later screenshots or synthetic SRAM files.
+- The deterministic menu-animation clock is required for exact image
+  comparison: the initial title comparison differed only in 400 pixels of the
+  elapsed-time-driven cursor light. With the existing frame-clock test option,
+  the images match. No gameplay code change was needed for that comparison.
+- Existing integration suite: nine checks pass (including additive blending,
+  keyboard/controller bridge input, dummy audio, SRAM and bounds trapping).
+  All five 905-frame scenes, including HD dialogue, also pass.
+- Example title state: 19,941,891 bytes, written in 1,070 ms on this machine.
+  This is one observed sample, not a general performance guarantee.
+
+Evidence: `build/macos/states-build.log`, `states-test.log`,
+`states-integration.log`, `tests/states-g6zaeg5a/{report,identity-report}.json`
+and `tests/run-u15hmsnp/report.json`. Separate identity tests repair the
+metadata checksum after changing the build/ROM identity, to distinguish
+compatibility rejection from damaged-header rejection.
+
+Outstanding: manual field and battle use, F6/F7 slot changes, audio after loads,
+held keys/physical controllers, real save-point/continue, display changes,
+app relocation and longer sessions. The implementation remains opt-in and
+experimental. Boss rematches remain disabled. The existing PortTitleLogoBg
+linker warning is still present. No live player saves/settings were used.
+
 ## Controls localisation — source correction, 23 October 2026
 
 The user's English controls page contained nine Spanish action/navigation

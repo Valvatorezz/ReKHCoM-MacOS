@@ -14,6 +14,7 @@ void PortPs5LockSettings(void) {
 void PortGameSections(char** data,size_t* size,char** bss,size_t* bsize) {
     static char empty; *data=*bss=&empty; *size=*bsize=0;
 }
+#ifndef MACOS_SAVE_STATES
 const char* PortStatePath(int slot) { (void)slot;return ""; }
 void PortStateRequestSave(const char* p) { (void)p;PortUiNotice("Use normal cartridge saves on macOS"); }
 void PortStateRequestLoad(const char* p) { (void)p;PortUiNotice("Use normal cartridge saves on macOS"); }
@@ -21,6 +22,7 @@ void PortStateService(void) {}
 void PortStateRequestQuiet(int load,const char* path) { (void)load;(void)path; }
 int PortStateBusy(void) { return 0; }
 int PortStateLastResult(void) { return 0; }
+#endif
 void PortWatchdogStart(void) {}
 void PortCrashHandlerInstall(void) {}
 void PortBiosFaultInstall(void) { PortLog("macOS: checked linear memory; no signal-based fault recovery"); }

@@ -1,5 +1,14 @@
 # Current macOS development status
 
+Save-state prototype: active work on `quicksaveload`, based on `macos-port`
+at `13e543eef` (the later upstream merge in main is not included). The opt-in
+`--experimental-states` build uses separate `states[-release]/<region>` output.
+See SAVE_STATES.md for architecture, controls and isolated test commands.
+Normal builds retain disabled quick states; boss rematches remain disabled.
+This is experimental work, not permission to commit, push or replace the
+player's working app. Manual field/battle, audio/input, save-point/continue and
+longer-session checks remain pending after the automated regressions.
+
 Active checkout: `/Users/randellevergara/GitHub/ReKHCoM-MacOS`. The older
 `/Users/randellevergara/ChatGPT/Games/ReKHCoM` folder is reference material only.
 The user requested a prebuilt app where users supply their own ROM on 23 October
@@ -61,7 +70,8 @@ usage until 11:50 PM Asia/Manila. Do not schedule or start work automatically.
 ## Deferred by the user
 
 - Replacement HD music and optional HD movies: decoder/mixer and user imports.
-- Portable quick save/load states; boss rematches after states are reliable.
+- Wider save-state portability and boss rematches after states are reliable;
+  experimental quick save/load is now active work on `quicksaveload` above.
 - RetroAchievements: retain shared achievement code/data; add runtime/account
   integration later. Discord is not requested.
 - Other regions only if wanted: EU languages/future achievement compatibility;
